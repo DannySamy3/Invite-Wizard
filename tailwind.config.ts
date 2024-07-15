@@ -84,13 +84,7 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-linear": "linear-gradient(180deg, var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(var(--tw-gradient-stops))",
-        "hero-pattern-1": "url('/images/img-1.jpg')", // Add the custom image here
-        "hero-pattern-2": "url('/images/img-2.jpg')", // Add the custom image here
-        "hero-pattern-3": "url('/images/img-3.jpg')", // Add the custom image here
-        "hero-pattern-4": "url('/images/img-4.jpg')", // Add the custom image here
-        "hero-pattern-5": "url('/images/img-5.jpg')", // Add the custom image here
-        "hero-pattern-6": "url('/images/img-6.jpg')", // Add the custom image here
-        "hero-pattern-7": "url('/images/img-7.jpg')", // Add the custom image here
+        "hero-pattern-1": "url('/images/right.jpg')", // Add the custom image here
       }),
     },
   },
