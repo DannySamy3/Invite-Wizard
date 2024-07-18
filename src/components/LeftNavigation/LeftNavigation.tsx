@@ -2,7 +2,7 @@ import React from "react";
 
 const LeftNavigation = () => {
   return (
-    <div className="drawer relative">
+    <div className="drawer w-0  relative">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         {/* Page content here */}
@@ -32,12 +32,12 @@ const LeftNavigation = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+        <ul className="menu bg-base-200  min-h-full w-80 p-4 font-montserrat text-black text-sm font-normal">
           {/* Sidebar content here */}
-          <li>
-            <a>Sidebar Item 1</a>
+          <li className=" hover:font-bold">
+            <a>Home</a>
           </li>
-          <li>
+          <li className=" hover:font-bold">
             <a>Sidebar Item 2</a>
           </li>
         </ul>

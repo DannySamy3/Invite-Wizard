@@ -96,16 +96,16 @@ const Testimonial = () => {
                   {textObj.text}
                 </p>
                 <section className=" flex mr-6  gap-6 mb-8  w-full  ">
-                  <div className=" w-20  h-20 rounded-full   bg-black overflow-hidden ml-2 ">
-                    <Image
-                      className=" "
-                      src={textObj.img}
-                      width={200}
-                      height={200}
-                      alt=""
-                      objectFit="contain"
-                    />
-                  </div>
+                  {/* <div className=" w-20  h-20 rounded-full    bg-black overflow-hidden ml-2 "> */}
+                  <Image
+                    className=" rounded-full w-20 h-20 "
+                    src={textObj.img}
+                    width={150}
+                    height={150}
+                    alt=""
+                    objectFit="contain"
+                  />
+                  {/* </div> */}
 
                   <section className=" flex flex-col gap-2 font-montserrat w-3/4">
                     <h2 className=" mt-1 mb-1 text-lg ">{textObj.name}</h2>

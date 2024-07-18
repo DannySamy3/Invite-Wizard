@@ -9,10 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^3.4.4",
     "@tailwindcss/postcss7-compat": "^2.2.17",
     "autoprefixer": "^10.4.19",
     "daisyui": "^4.12.10",
     "next": "14.2.4",
+    "pdfjs-dist": "^4.4.168",
     "react": "^18",
     "react-dom": "^18"
   },

@@ -13,30 +13,36 @@ const Subsrciption = () => {
         <article className=" w-11/12 font-montserrat rounded-xl bg-stone-200  mx-auto gap-3 p-10 h-82%  ">
           <div className=" flex  gap-3">
             <div className=" flex flex-col gap-4 shadow-sm rounded-xl p-6 w-4/12 bg-stone-300 ">
-              <h2 className="text-4xl font-playfair ">Basic</h2>
+              <h2 className="text-4xl font-playfair ">Free</h2>
               {/* <span className=" text-xl text-orange-400">Features</span> */}
               <ul className=" leading-10 text-normal">
-                <li> Create & Customize Cards</li>
-                <li>Monthly access</li>
-                <li>25 Invitation Sharing</li>
+                <li>Limited Card Customization✅</li>
+                <li>
+                  28 days access <span className=" w-8 h-8">🕛</span>{" "}
+                </li>
+                <li>25 Invitation Sharing ✅</li>
               </ul>
             </div>
             <div className=" flex flex-col gap-4 shadow-sm rounded-xl p-6 w-4/12 bg-stone-300 ">
-              <h2 className="text-4xl font-playfair ">Basic</h2>
+              <h2 className="text-4xl font-playfair ">Premium</h2>
               {/* <span className=" text-xl text-orange-400">Features</span> */}
               <ul className=" leading-10 text-normal ">
-                <li> Create & Customize Cards</li>
-                <li>Monthly access</li>
-                <li>25 Invitation Sharing</li>
+                <li>Limited Card Customization✅</li>
+                <li>
+                  6 Months access <span className=" w-8 h-8">🕛</span>
+                </li>
+                <li>70 Invitation Sharing </li>
               </ul>
             </div>
-            <div className=" flex flex-col gap-4 shadow-2xl  bg-stone-400 rounded-xl p-6 w-4/12 ">
-              <h2 className="text-4xl font-playfair ">Basic</h2>
+            <div className=" flex flex-col gap-4 shadow-2xl  bg-stone-400 rounded-xl p-6 w-4/12 h-full ">
+              <h2 className="text-4xl font-playfair ">Ultimate</h2>
               {/* <span className=" text-xl text-orange-400">Features</span> */}
               <ul className=" leading-10 text-normal">
-                <li> Create & Customize Cards</li>
-                <li>Monthly access</li>
-                <li>25 Invitation Sharing</li>
+                <li>Limited Card Customization❌</li>
+                <li>Life Time Access✅</li>
+                <li>Unlimited Invitation Sharing✅</li>
+                <li>Account Reusal for other Weddings✅</li>
+                <li>10% discount✅</li>
               </ul>
             </div>
           </div>
