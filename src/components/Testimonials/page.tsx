@@ -1,8 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
+
+
+interface Testimonial {
+  id: number;
+  text: string;
+  name: string;
+  job: string;
+  img: string;
+}
+
+
 const Testimonial = () => {
-  const [testimonial, setTestimonial] = useState([]);
+  const [testimonial, setTestimonial] = useState<Testimonial[]>([]);
   const [activeTestimonal, setActiveTestimonial] = useState(1);
 
   const persons = ["Alice Parker", "James Lee", "Emily White", "Ryan Mitchell"];

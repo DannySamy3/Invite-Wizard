@@ -3,28 +3,28 @@ import { useState } from "react";
 import CardText from "./CardText";
 import CardDetails from "./CardDetails";
 import LeftNavigation from "../LeftNavigation/LeftNavigation";
+import FirstCard from "../CardTemplates/FirstCard";
+import Button from "../ReUsable/Button";
 
 const InnerPage = () => {
-  // const [cardPreview, setCardPreview] = useState({sectionText:false});
   const initial = {
     text: false,
     details: false,
     view: false,
   };
   const [selectedElement, setSelectedElement] = useState(initial);
-  const handleCardText = (e) => {
-    const { name } = e.target;
 
-    console.log(name);
+  const handleCard = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const { name } = e.currentTarget; 
+    const key = name as keyof typeof initial;
+
     setSelectedElement((prev) => {
       return {
         ...initial,
-        [name]: !prev[name],
+        [key]: !prev[key],
       };
     });
   };
-
-  console.log(selectedElement)
 
   let btnStyle =
     " font-montserrat rounded-md text-lg p-2 text-start hover:bg-blue-300 outline-none ";
@@ -50,31 +50,28 @@ const InnerPage = () => {
                 <button className=" font-montserrat rounded-md text-lg p-2 text-start hover:bg-blue-300 ">
                   Select Template
                 </button>
-                <button
-                  name="text"
-                  onClick={(e) => handleCardText(e)}
-                  className={`${
-                    selectedElement.text
-                      ? btnStyle.concat(" bg-blue-300 font-semibold")
-                      : btnStyle
-                  }`}
+                <Button
+                  identifier={"text"}
+                  method={handleCard}
+                  selectedElement={selectedElement.text}
                 >
                   Customize Text
-                </button>
-                <button
-                  name="details"
-                  onClick={(e) => handleCardText(e)}
-                  className={`${
-                    selectedElement.details
-                    ? btnStyle.concat(" bg-blue-300 font-semibold")
-                      : btnStyle
-                  }`}
+                </Button>
+                <Button
+                  identifier={"details"}
+                  method={handleCard}
+                  selectedElement={selectedElement.details}
                 >
                   Add Card Details
-                </button>
-                <button className=" font-montserrat rounded-md text-lg p-2 text-start hover:bg-blue-300 outline-none   ">
+                </Button>
+
+                <Button
+                  identifier={"view"}
+                  method={handleCard}
+                  selectedElement={selectedElement.view}
+                >
                   View Card
-                </button>
+                </Button>
               </article>
             </div>
             <div className=" bg-gray-200 w-2/4 rounded-lg ">
@@ -84,6 +81,7 @@ const InnerPage = () => {
 
               {selectedElement.text && <CardText />}
               {selectedElement.details && <CardDetails />}
+              {selectedElement.view && <FirstCard />}
             </div>
           </section>
         </div>

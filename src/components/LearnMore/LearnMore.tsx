@@ -6,11 +6,10 @@ const LearnMore = () => {
   const [showFirstSection, setShowFirstSection] = useState(false);
   const [showSecondSection, setShowSecondSection] = useState(false);
   const [showThirdSection, setShowThirdSection] = useState(false);
-  const secondSectionRef = useRef(null); // Create a ref for the second section
-
+  const secondSectionRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const timer1 = setTimeout(() => {
-      setShowFirstSection(true); // Show first section after 5 seconds
+      setShowFirstSection(true);
     }, 6000);
 
     const timer2 = setTimeout(() => {

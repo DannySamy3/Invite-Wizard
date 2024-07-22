@@ -3,7 +3,15 @@ import React from "react";
 
 import Link from "next/link";
 
-const Navigation = ({ isLoaded, handleLoginModal }) => {
+interface NavigationProps {
+  isLoaded: boolean;
+  handleLoginModal: () => void;
+}
+
+const Navigation: React.FC<NavigationProps> = ({
+  isLoaded,
+  handleLoginModal,
+}) => {
   return (
     <nav
       className={`absolute mt-2 w-3/4 text-gray-900 transition-all duration-1000 flex justify-between items-center p-4 rounded-full text-lg font-semibold

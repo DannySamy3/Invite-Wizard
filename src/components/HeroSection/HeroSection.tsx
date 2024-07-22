@@ -8,8 +8,7 @@ import Subsrciption from "../Subscription/Subsrciption";
 
 const HeroSection = () => {
   const images = ["bg-hero-pattern-1"];
-  // const [currentImage, setCurrentImage] = useState(0);
-  // const [previousImage, setPreviousImage] = useState(images[0]);
+
   const [isLoaded, setIsLoaded] = useState(false);
 
   const [loginPage, setLoginPage] = useState(false);
@@ -18,21 +17,7 @@ const HeroSection = () => {
     setLoginPage(true);
   };
 
-  // Preload images
-  // useEffect(() => {
-  //   images.forEach((image) => {
-  //     const img = new Image();
-  //     img.src = image;
-  //   });
-  // }, [images]);
-
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setPreviousImage(images[currentImage]);
-  //     setCurrentImage((prevImage) => (prevImage + 1) % images.length);
-  //   }, 5000);
-  //   return () => clearInterval(timer);
-  // }, [images, currentImage]);
+ 
 
   useEffect(() => {
     const timer = setTimeout(() => {
