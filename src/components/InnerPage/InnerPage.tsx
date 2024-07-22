@@ -5,6 +5,7 @@ import CardDetails from "./CardDetails";
 import LeftNavigation from "../LeftNavigation/LeftNavigation";
 import FirstCard from "../CardTemplates/FirstCard";
 import Button from "../ReUsable/Button";
+import TemplateCard1 from "../CardRenderer/TemplateCard1";
 
 const InnerPage = () => {
   const initial = {
@@ -82,6 +83,8 @@ const InnerPage = () => {
               {selectedElement.text && <CardText />}
               {selectedElement.details && <CardDetails />}
               {selectedElement.view && <FirstCard />}
+              {/* {selectedElement.view && <TemplateCard1 />} */}
+
             </div>
           </section>
         </div>

@@ -16,11 +16,7 @@ const CardDetails = () => {
         
       </select>
 
-      {/* <label>Header Text</label>
-      <textarea className=" rounded-md h-10 text-sm outline-none text-gray-600 leading-8" /> */}
-
-      {/* <label>Body Text</label>
-      <textarea className=" rounded-md h-32 text-sm outline-none text-gray-600 leading-8" /> */}
+     
       <label>How Many Cards?</label>
       <input type='number' className=" rounded-md h-12 text-sm outline-none text-gray-600 leading-8" />
     </section>

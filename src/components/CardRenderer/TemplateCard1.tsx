@@ -5,7 +5,7 @@ import FirstCard from "../CardTemplates/FirstCard";
 const TemplateCard1 = () => {
   return (
     <div>
-      <PDFDownloadLink document={<FirstCard />} fileName="card-details.pdf">
+      <PDFDownloadLink document={<FirstCard />} fileName="Wed-Card.pdf" >
         {({ blob, url, loading, error }) =>
           loading ? "Loading document..." : "Download now!"
         }
