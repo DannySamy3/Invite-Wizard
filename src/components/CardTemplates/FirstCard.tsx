@@ -70,34 +70,33 @@ const styles = StyleSheet.create({
   },
 });
 
-const WeddingCard = () => (
+const WeddingCard = ({ cardInput }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
         <Text style={[styles.header, { fontFamily: "Times-Roman" }]}>
-          Wedding Invitation
+          {cardInput.headerText}
         </Text>
-        <Text style={styles.content}>Dear Beloved Family and Friends,</Text>
+        <Text style={styles.content}>{cardInput.salutation}</Text>
+
+        {/* <Text style={styles.content}>Date: {cardInput.date}</Text> */}
+
         <Text style={styles.content}>
-          We joyfully announce the union of our hearts and invite you to
-          celebrate with us on our wedding day.
-        </Text>
-        <Text style={styles.content}>Date: Saturday, [Wedding Date]</Text>
-        <Text style={styles.content}>Ceremony Venue: [Ceremony Venue]</Text>
-        <Text style={styles.content}>Reception Venue: [Reception Venue]</Text>
-        <Text style={styles.content}>
-          Your presence would mean the world to us as we embark on this new
-          chapter of our lives together.
-        </Text>
-        <Text style={styles.content}>
-          In lieu of traditional gifts, we kindly request your support through
-          contributions to our wedding fund. Your generosity will help us create
-          lasting memories on our special day.
+          {cardInput.description}
+       
+          {/* Your presence would mean the world to us as we embark on this new
+          chapter of our lives together. In lieu of traditional gifts, we kindly
+          request your support through contributions to our wedding fund. Your
+          generosity will help us create lasting memories on our special day. */}
         </Text>
         <Text style={styles.content}>
+          The Wedding will be held at {cardInput.location} Venue on,{" "}
+          {cardInput.date}{" "}
+        </Text>
+        {/* <Text style={styles.content}>
           Please RSVP by [RSVP Date] to ensure we can accommodate all our guests
           comfortably.
-        </Text>
+        </Text> */}
         <Text style={styles.note}>With love and gratitude,</Text>
         <Text style={styles.note}>[Your Names]</Text>
       </View>

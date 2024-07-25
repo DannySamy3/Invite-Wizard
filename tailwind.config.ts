@@ -33,6 +33,7 @@ const config: Config = {
         "20%": "-9%", // Add the custom value here
         "82%": "82%", // Add the custom value here
         "86%": "86%", // Add the custom value here
+        "88%": "88%", // Add the custom value here
       },
       gridTemplateColumns: {
         "custom-mine": "128px 100px",
@@ -79,6 +80,7 @@ const config: Config = {
       width: {
         "66.3p": "71%", // Custom width of 60 percent
       },
+      gap: { "6p": "0.375rem" },
 
       backgroundImage: (theme) => ({
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

@@ -6,22 +6,36 @@ import LeftNavigation from "../LeftNavigation/LeftNavigation";
 import FirstCard from "../CardTemplates/FirstCard";
 import Button from "../ReUsable/Button";
 import TemplateCard1 from "../CardRenderer/TemplateCard1";
+import { PDFViewer } from "@react-pdf/renderer";
+import { init } from "next/dist/compiled/webpack/webpack";
 
 const InnerPage = () => {
-  const initial = {
+  const initialViewState = {
     text: false,
     details: false,
     view: false,
   };
-  const [selectedElement, setSelectedElement] = useState(initial);
+
+  const initialCardData = {
+    location: "",
+    bodyFont: "",
+    headerText: "",
+    salutation: "",
+    date: "",
+    contact: "",
+    description: "",
+  };
+  const [selectedElement, setSelectedElement] = useState(initialViewState);
+
+  const [cardData, setCardData] = useState(initialCardData);
 
   const handleCard = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const { name } = e.currentTarget; 
-    const key = name as keyof typeof initial;
+    const { name } = e.currentTarget;
+    const key = name as keyof typeof initialViewState;
 
     setSelectedElement((prev) => {
       return {
-        ...initial,
+        ...initialViewState,
         [key]: !prev[key],
       };
     });
@@ -31,7 +45,7 @@ const InnerPage = () => {
     " font-montserrat rounded-md text-lg p-2 text-start hover:bg-blue-300 outline-none ";
 
   return (
-    <div className="bg-gray-200  h-screen flex flex-row gap-0 outline-none">
+    <div className="bg-gray-200  h-screen overflow-y-hidden flex flex-row gap-0 outline-none">
       <LeftNavigation />
       <section className=" w-11/12     mx-auto shadow-sm rounded-md">
         <div className=" shadow-lg  flex flex-col gap-4 h-screen p-10 bg-gray-300 rounded-xl mt-6">
@@ -80,11 +94,19 @@ const InnerPage = () => {
                 View
               </header>
 
-              {selectedElement.text && <CardText />}
+              {selectedElement.text && (
+                <CardText
+                  state={setCardData}
+                  closeElement={setSelectedElement}
+                  initialData={initialCardData}
+                />
+              )}
               {selectedElement.details && <CardDetails />}
-              {selectedElement.view && <FirstCard />}
-              {/* {selectedElement.view && <TemplateCard1 />} */}
-
+              {selectedElement.view && (
+                <PDFViewer className=" mt-5 w-11/12 mx-auto h-88%">
+                  <FirstCard cardInput={cardData} />
+                </PDFViewer>
+              )}
             </div>
           </section>
         </div>
