@@ -15,42 +15,99 @@ import {
 // Register standard fonts
 Font.registerHyphenationCallback((word) => [word]);
 
-// Import your background image
-// const backgroundImage = require("/public/images/4.jpg");
-
 // Define styles for the PDF
 const styles = StyleSheet.create({
   page: {
+    backgroundColor: "#c2c5aa",
     flexDirection: "column",
+    lineHeight: 1.4,
     alignItems: "center",
     justifyContent: "space-between", // Adjusted to evenly distribute content vertically
     position: "relative", // Ensure page is relative for absolute positioning
     backgroundImage: `url(${backgroundImage})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
-    width: "100%",
-    height: "100%",
-    padding: 40, // Adjust padding as needed
+    paddingHorizontal: 50,
+    paddingVertical: 150, // Adjust padding as needed
     fontFamily: "Helvetica", // Default font
+    border: "20px solid blue", // Add blue border
+    borderColor: "#8d99ae", // Set border color to blue
+    boxSizing: "border-box", // Ensure padding and border are included in the element's total width and height
+    width: 360, // A5 width in points
+    height: 504, // A5 height in points
   },
   section: {
     marginVertical: 10, // Adjust vertical margin between sections
     textAlign: "center",
   },
   header: {
-    fontSize: 24,
+    fontSize: 13,
     marginBottom: 10,
     fontWeight: "bold",
-    textDecoration: "underline",
+    textAlign: "center",
+    marginLeft: 140,
+
     fontFamily: "Times-Roman", // Header font
   },
   content: {
-    fontSize: 16,
+    fontSize: 13,
     marginBottom: 10,
     fontFamily: "Helvetica", // Content font
   },
+  salutation: {
+    marginLeft: 40,
+    fontSize: 13,
+    marginBottom: 10,
+    fontFamily: "Helvetica", // Content font
+  },
+  footer: {
+    fontSize: 13,
+    marginBottom: 25,
+    fontFamily: "Helvetica", // Content font
+  },
+  description: {
+    marginLeft: 80,
+    marginRight: 80,
+    fontSize: 11,
+    lineHeight: 1.8,
+
+    fontFamily: "Helvetica", // Content font
+  },
+  venue: {
+    marginLeft: 150,
+    fontSize: 13,
+    marginBottom: 10,
+    fontFamily: "Helvetica", // Content font
+  },
+  date: {
+    // marginLeft: 80,
+    fontSize: 13,
+    marginBottom: 10,
+    fontFamily: "Helvetica", // Content font
+  },
+  title1: {
+    fontSize: 28,
+    marginBottom: 20,
+    fontFamily: "Helvetica", // Content font
+    marginLeft: 130,
+    // paddingLeft: 48,
+  },
+  title2: {
+    marginTop: 10,
+    fontSize: 28,
+    marginBottom: 0,
+    fontFamily: "Helvetica", // Content font
+    marginLeft: 150,
+  },
+  and: {
+    fontSize: 22,
+    marginBottom: 0,
+    fontFamily: "Helvetica", // Content font
+    marginLeft: 190,
+    // paddingLeft: 75,
+  },
   note: {
-    fontSize: 12,
+    fontSize: 13,
     marginTop: 20,
     textAlign: "center",
     fontStyle: "italic",
@@ -58,13 +115,13 @@ const styles = StyleSheet.create({
   },
   qrContainer: {
     position: "absolute",
-    bottom: 20, // Adjust the bottom spacing as needed
+    bottom: 65, // Adjust the bottom spacing as needed
     right: 20, // Adjust the right spacing as needed
     width: 80,
     height: 80,
     backgroundColor: "#f0f0f0",
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "#e76f51",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -74,39 +131,30 @@ const WeddingCard = ({ cardInput }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
-        <Text style={[styles.header, { fontFamily: "Times-Roman" }]}>
-          {cardInput.headerText}
+        <Text style={styles.header}>{cardInput.headerText.toUpperCase()}</Text>
+        <Text style={styles.salutation}>
+          {cardInput.salutation.toUpperCase()}
         </Text>
-        <Text style={styles.content}>{cardInput.salutation}</Text>
+        <Text style={styles.title2}>{cardInput.groom.toUpperCase()}</Text>
+        <Text style={styles.and}>&</Text>
+        <Text style={styles.title1}>{cardInput.bride.toUpperCase()}</Text>
 
-        {/* <Text style={styles.content}>Date: {cardInput.date}</Text> */}
+        <Text style={styles.content}>{`${cardInput.date}, 8pm sharp !`}</Text>
 
-        <Text style={styles.content}>
-          {cardInput.description}
-       
-          {/* Your presence would mean the world to us as we embark on this new
-          chapter of our lives together. In lieu of traditional gifts, we kindly
-          request your support through contributions to our wedding fund. Your
-          generosity will help us create lasting memories on our special day. */}
-        </Text>
-        <Text style={styles.content}>
-          The Wedding will be held at {cardInput.location} Venue on,{" "}
-          {cardInput.date}{" "}
-        </Text>
-        {/* <Text style={styles.content}>
-          Please RSVP by [RSVP Date] to ensure we can accommodate all our guests
-          comfortably.
-        </Text> */}
-        <Text style={styles.note}>With love and gratitude,</Text>
-        <Text style={styles.note}>[Your Names]</Text>
+        <Text style={styles.content}>{cardInput.description}</Text>
+        {/* <Text style={styles.date}>{cardInput.date}</Text> */}
+        <Text
+          style={styles.content}
+        >{`Venue : ${cardInput.location.toUpperCase()}`}</Text>
+        <Text
+          style={styles.footer}
+        >{`for more information call ${cardInput.contact}`}</Text>
+        <Text style={styles.venue}>{"Cant wait to see you all"}</Text>
       </View>
 
       {/* QR Code Container */}
       <View style={styles.qrContainer}>
-        {/* You can place your QR code image or text here */}
         <Text>Scan QR Code</Text>
-        {/* Example of an image */}
-        {/* <Image src="/path/to/your/qr-code.png" /> */}
       </View>
     </Page>
   </Document>

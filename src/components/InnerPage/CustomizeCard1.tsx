@@ -1,67 +1,38 @@
 import React from "react";
 import { useState } from "react";
-const CardText = ({ state, closeElement, initialData }) => {
-  const [tempData, setTempData] = useState(initialData);
 
-  const handleDataSubmission = (e) => {
-    e.preventDefault();
-    const { name, value } = e.target;
-
-    state((prev) => {
-      return {
-        ...prev,
-        [name]: value,
-      };
-    });
-    setTempData((prev) => {
-      return {
-        ...prev,
-        [name]: value,
-      };
-    });
+interface CustomizeCard1Props {
+  handleSave: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleDataSubmission: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
+  tempData: {
+    headerText: string;
+    salutation: string;
+    bride: string;
+    groom: string;
+    location: string;
+    date: string;
+    contact: string;
+    description: string;
   };
+  nextPage: (callback: (prev: any) => any) => void;
+  defaultView: any;
+}
 
-  const handleSave = (e) => {
-    e.preventDefault();
-    setTempData(initialData);
-
-    closeElement((prev) => {
-      return {
-        ...prev,
-        text: false,
-      };
-    });
-  };
-
+const CustomizeCard1: React.FC<CustomizeCard1Props> = ({
+  handleSave,
+  handleDataSubmission,
+  tempData,
+  nextPage,
+  defaultView,
+}) => {
   return (
     <div className="   font-montserrat font-semibold text-gray-500    rounded-lg">
       <form
         onSubmit={(e) => handleSave(e)}
-        className=" flex flex-col gap-6p p-6    "
+        className=" flex flex-col gap-6p px-6 py-2    "
       >
-        {/* <select
-          name="headerFont"
-          onChange={(e) => handleDataSubmission(e)}
-          className=" h-10 rounded-md outline-none px-2 py-1"
-          required
-        >
-          <option value=""> Header Font</option>
-          <option value="Monterrasat">Monterrasat</option>
-          <option value="Vidaloka">Vidaloka</option>
-          <option value="Play Fair">Play Fair</option>
-        </select> */}
-        <select
-          name="bodyFont"
-          onChange={(e) => handleDataSubmission(e)}
-          className=" h-10 rounded-md outline-none px-2 py-1"
-          required
-        >
-          <option value=""> Select font</option>
-          <option value="Roboto">Roboto</option>
-          <option value="Monterrasat">Monterrasat</option>
-          <option value="Play Fair">Play Fair</option>
-        </select>
-
         <label>Header Text</label>
         <input
           type="text"
@@ -81,6 +52,27 @@ const CardText = ({ state, closeElement, initialData }) => {
           className=" rounded-md h-10 text-sm outline-none text-gray-600 leading-8 px-2 py-1"
           required
         />
+
+        <label>Bride's Name </label>
+        <input
+          name="bride"
+          onChange={(e) => handleDataSubmission(e)}
+          type="text"
+          value={tempData.bride}
+          className=" rounded-md h-10 text-sm outline-none text-gray-600 leading-8 px-2 py-1"
+          required
+        />
+
+        <label>Groom's Name</label>
+        <input
+          name="groom"
+          onChange={(e) => handleDataSubmission(e)}
+          type="text"
+          value={tempData.groom}
+          className=" rounded-md h-10 text-sm outline-none text-gray-600 leading-8 px-2 py-1"
+          required
+        />
+
         <label>Location / Venue</label>
         <input
           name="location"
@@ -109,20 +101,24 @@ const CardText = ({ state, closeElement, initialData }) => {
           className=" rounded-md h-10 text-sm outline-none text-gray-600 leading-8 px-2 py-1"
           required
         />
-        <label>Description</label>
-        <textarea
-          name="description"
-          onChange={(e) => handleDataSubmission(e)}
-          value={tempData.description}
-          className=" rounded-md h-16 text-sm outline-none text-gray-600 leading-8 focus: px-2 py-1"
-        />
-        <input
-          type="submit"
+
+        <button
+          onClick={() =>
+            nextPage(() => {
+              return {
+                ...defaultView,
+                more: true,
+                text: true,
+              };
+            })
+          }
           className=" bg-green-800 py-4 w-28 rounded-md    my-2 text-white hover:bg-green-500 hover:text-black "
-        />
+        >
+          Next
+        </button>
       </form>
     </div>
   );
 };
 
-export default CardText;
+export default CustomizeCard1;

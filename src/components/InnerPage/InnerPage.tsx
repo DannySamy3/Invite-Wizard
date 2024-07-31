@@ -1,11 +1,12 @@
 import React from "react";
 import { useState } from "react";
-import CardText from "./CardText";
+import CustomizeCard1 from "./CustomizeCard1";
+import CustomizeCard2 from "./CustomizeCard2";
 import CardDetails from "./CardDetails";
 import LeftNavigation from "../LeftNavigation/LeftNavigation";
 import FirstCard from "../CardTemplates/FirstCard";
 import Button from "../ReUsable/Button";
-import TemplateCard1 from "../CardRenderer/TemplateCard1";
+
 import { PDFViewer } from "@react-pdf/renderer";
 import { init } from "next/dist/compiled/webpack/webpack";
 
@@ -14,20 +15,87 @@ const InnerPage = () => {
     text: false,
     details: false,
     view: false,
+    more: false,
   };
 
+  const date = new Date("2026-07-24");
+  const day = date.toLocaleDateString("en-US", { weekday: "long" });
+  const year = date.toLocaleString("en-US", { year: "numeric" });
+  const month = date
+    .toLocaleDateString("en-US", { month: "long" })
+    .toLocaleUpperCase();
+  const dayOfMonth = date.getDate();
+
+  const getOrdinalSuffix = (day) => {
+    if (day > 3 && day < 21) return "th";
+    switch (day % 10) {
+      case 1:
+        return "ST";
+      case 2:
+        return "ND";
+      case 3:
+        return "RF";
+      default:
+        return "TH";
+    }
+  };
+
+  const fullDate = `${month} ${dayOfMonth}${getOrdinalSuffix(
+    dayOfMonth
+  )} ${year}`;
+
+  const dummydata = {
+    location: "Okinawa ",
+    headerText: "Ndugu Kaka Au Dada",
+    salutation: "The family of Ms.Lutufyo likes to invite you to ",
+    date: fullDate,
+    contact: "0655312125",
+    description:
+      "orem ipsum dolor sit amet, consectetur adipisicing elit. Dolor enim molestiae repellat ex sapiente delectus placeat quos nulla quia iure, aliquam ipsam animi sunt tempora culpa eius molestias quibusdam asperiores ",
+    bride: "Violeth",
+    groom: "daniel",
+  };
   const initialCardData = {
     location: "",
-    bodyFont: "",
+    // bodyFont: "",
     headerText: "",
     salutation: "",
     date: "",
     contact: "",
     description: "",
+    bride: "",
+    groom: "",
   };
-  const [selectedElement, setSelectedElement] = useState(initialViewState);
 
-  const [cardData, setCardData] = useState(initialCardData);
+  const collectData = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+
+    state((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+    setTempData((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  };
+
+  const submitData = (e) => {
+    e.preventDefault();
+    setTempData(initialData);
+
+    closeElement((prev) => {
+      return {
+        ...prev,
+        text: false,
+      };
+    });
+  };
 
   const handleCard = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { name } = e.currentTarget;
@@ -40,6 +108,10 @@ const InnerPage = () => {
       };
     });
   };
+
+  const [tempData, setTempData] = useState(initialCardData);
+  const [selectedElement, setSelectedElement] = useState(initialViewState);
+  const [cardData, setCardData] = useState(initialCardData);
 
   let btnStyle =
     " font-montserrat rounded-md text-lg p-2 text-start hover:bg-blue-300 outline-none ";
@@ -72,13 +144,21 @@ const InnerPage = () => {
                 >
                   Customize Text
                 </Button>
-                <Button
+
+                {/* <Button
+                  identifier={"more"}
+                  method={handleCard}
+                  selectedElement={selectedElement.more}
+                >
+                  More Details
+                </Button> */}
+                {/* <Button
                   identifier={"details"}
                   method={handleCard}
                   selectedElement={selectedElement.details}
                 >
                   Add Card Details
-                </Button>
+                </Button> */}
 
                 <Button
                   identifier={"view"}
@@ -94,17 +174,28 @@ const InnerPage = () => {
                 View
               </header>
 
-              {selectedElement.text && (
-                <CardText
-                  state={setCardData}
-                  closeElement={setSelectedElement}
-                  initialData={initialCardData}
+              {selectedElement.text && !selectedElement.more && (
+                <CustomizeCard1
+                  handleSave={submitData}
+                  handleDataSubmission={collectData}
+                  tempData={tempData}
+                  nextPage={setSelectedElement}
+                  defaultView={initialViewState}
+                />
+              )}
+              {selectedElement.more && (
+                <CustomizeCard2
+                  handleDataSubmission={collectData}
+                  tempData={tempData}
+                  handleSave={submitData}
+                  defaultView={initialViewState}
+                  previousPage={setSelectedElement}
                 />
               )}
               {selectedElement.details && <CardDetails />}
               {selectedElement.view && (
                 <PDFViewer className=" mt-5 w-11/12 mx-auto h-88%">
-                  <FirstCard cardInput={cardData} />
+                  <FirstCard cardInput={dummydata} />
                 </PDFViewer>
               )}
             </div>
