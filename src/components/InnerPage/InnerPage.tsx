@@ -26,7 +26,7 @@ const InnerPage = () => {
     .toLocaleUpperCase();
   const dayOfMonth = date.getDate();
 
-  const getOrdinalSuffix = (day) => {
+  const getOrdinalSuffix = (day: number) => {
     if (day > 3 && day < 21) return "th";
     switch (day % 10) {
       case 1:
