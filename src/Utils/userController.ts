@@ -9,3 +9,14 @@ export const createUser = async (data) => {
     console.error(error);
   }
 };
+export const login = async (data) => {
+  try {
+    const response = await axiosInstance.post("/login", data);
+
+    // const { token } = response.data;
+    // return token;
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};

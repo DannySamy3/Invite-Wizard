@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { useState } from "react";
 import CustomizeCard1 from "./CustomizeCard1";
@@ -176,7 +177,7 @@ const InnerPage = () => {
               <InviteeTools
                 handleCard={handleCard}
                 selectedElement={selectedElement}
-                domain={"invited"}
+                domain={"invitee"}
               />
             </div>
             <div className=" bg-gray-200 w-2/4 rounded-lg ">

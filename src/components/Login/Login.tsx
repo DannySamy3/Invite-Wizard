@@ -1,4 +1,9 @@
+"use client";
 import Link from "next/link";
+import nookies from "nookies";
+import { login } from "@/Utils/userController";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface SaveModalProps {
   triggleModal: (value: boolean) => void;
@@ -8,12 +13,50 @@ interface Login {
 }
 
 const Login = ({ handleLogin }: Login) => {
+  const [input, setInput] = useState({ email: "", password: "" });
+
+  const [error, setError] = useState("");
+  const [token, setToken] = useState("");
+
+  const navigate = useRouter();
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setInput((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = login(input);
+      const result = await response;
+      console.log(result);
+      if (result.statusText === "OK") {
+        setToken(result?.data.token);
+        // localStorage.setItem("authToken", token);
+        // navigate.push("../innerHomePage");
+        nookies.set(null, "token", result?.data.token, { path: "/" });
+        window.location.href = '../innerHomePage'; // Redirect to a protected page
+      }
+
+      // alert("Login successful!");
+    } catch (error) {
+      setError("Invalid email or password");
+    }
+  };
+
   const closeModal = () => {
     handleLogin(false);
   };
 
   return (
-    <div className="fixed inset-0 z-10 flex  justify-center   ">
+    <form className="fixed inset-0 z-10 flex  justify-center   ">
       <div className="absolute inset-0 bg-black opacity-85"></div>
       <dialog
         className="relative bg-gradient-to-b from-stone-400 to-gray-400  flex flex-col gap-1 rounded-box font-medium font-roboto p-16 border-1 border-base-200 shadow-2xl z-20"
@@ -43,17 +86,24 @@ const Login = ({ handleLogin }: Login) => {
           </header>
           <section className=" flex flex-col gap-4 ">
             <input
+              name="email"
               type="text"
+              onChange={(e) => handleChange(e)}
               placeholder="Email"
               className="placeholder-gray-600  text-sm h-16 px-3 font-montserrat rounded-lg  focus:outline-none"
             />
             <input
+              name="password"
               type="password"
+              onChange={(e) => handleChange(e)}
               placeholder="Password"
               className="placeholder-gray-600 text-sm h-16 px-3 rounded-lg  font-montserrat focus:outline-none  "
             />
 
-            <button className=" hover:bg-blue-600 m-4 text-xl w-auto  flex justify-center  bg-blue-500  p-4 rounded-badge font-montserrat font-semibold text-slate-200    ">
+            <button
+              onClick={(e) => handleSubmit(e)}
+              className=" hover:bg-blue-600 m-4 text-xl w-auto  flex justify-center  bg-blue-500  p-4 rounded-badge font-montserrat font-semibold text-slate-200    "
+            >
               Login
             </button>
           </section>
@@ -63,7 +113,7 @@ const Login = ({ handleLogin }: Login) => {
           <Link href="./navBtn/createAccount">SignUp</Link>
         </footer>
       </dialog>
-    </div>
+    </form>
   );
 };
 
