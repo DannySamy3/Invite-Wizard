@@ -17,8 +17,6 @@ const HeroSection = () => {
     setLoginPage(true);
   };
 
- 
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoaded(true);

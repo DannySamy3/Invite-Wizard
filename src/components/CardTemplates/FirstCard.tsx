@@ -111,12 +111,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
     textAlign: "center",
     fontStyle: "italic",
-    fontFamily: "Courier", // Note font
+    fontFamily: "Courier",
   },
   qrContainer: {
     position: "absolute",
-    bottom: 65, // Adjust the bottom spacing as needed
-    right: 20, // Adjust the right spacing as needed
+    bottom: 65,
+    right: 20,
     width: 80,
     height: 80,
     backgroundColor: "#f0f0f0",
@@ -127,35 +127,44 @@ const styles = StyleSheet.create({
   },
 });
 
-const WeddingCard = ({ cardInput }) => (
+const WeddingCard = ({ cardInput, preview }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
-        <Text style={styles.header}>{cardInput.headerText.toUpperCase()}</Text>
-        <Text style={styles.salutation}>
-          {cardInput.salutation.toUpperCase()}
+        <Text style={styles.header}>
+          {preview ? cardInput.heading.toUpperCase() : ""}
         </Text>
-        <Text style={styles.title2}>{cardInput.groom.toUpperCase()}</Text>
-        <Text style={styles.and}>&</Text>
-        <Text style={styles.title1}>{cardInput.bride.toUpperCase()}</Text>
+        <Text style={styles.salutation}>
+          {preview ? cardInput.greet.toUpperCase() : ""}
+        </Text>
+        <Text style={styles.title2}>
+          {preview ? cardInput.male.toUpperCase() : ""}
+        </Text>
+        <Text style={styles.and}>{preview ? "&" : ""}</Text>
+        <Text style={styles.title1}>
+          {preview ? cardInput.female.toUpperCase() : ""}
+        </Text>
 
-        <Text style={styles.content}>{`${cardInput.date}, 8pm sharp !`}</Text>
+        <Text style={styles.content}>{`${
+          preview ? cardInput.date.concat(" , 8pm sharp !") : ""
+        }`}</Text>
 
-        <Text style={styles.content}>{cardInput.description}</Text>
-        {/* <Text style={styles.date}>{cardInput.date}</Text> */}
-        <Text
-          style={styles.content}
-        >{`Venue : ${cardInput.location.toUpperCase()}`}</Text>
-        <Text
-          style={styles.footer}
-        >{`for more information call ${cardInput.contact}`}</Text>
-        <Text style={styles.venue}>{"Cant wait to see you all"}</Text>
+        <Text style={styles.content}>{cardInput.details}</Text>
+
+        <Text style={styles.content}>{`${
+          preview ? `Venue : ${cardInput.venue.toUpperCase()}` : ""
+        }`}</Text>
+        <Text style={styles.footer}>{`${
+          preview ? `for more information call ${cardInput.mobileContact}` : ""
+        }`}</Text>
+        <Text style={styles.venue}>{cardInput.footer}</Text>
       </View>
 
-      {/* QR Code Container */}
-      <View style={styles.qrContainer}>
-        <Text>Scan QR Code</Text>
-      </View>
+      {preview && (
+        <View style={styles.qrContainer}>
+          <Text>Scan QR Code</Text>
+        </View>
+      )}
     </Page>
   </Document>
 );

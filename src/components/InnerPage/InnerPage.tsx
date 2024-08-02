@@ -5,10 +5,11 @@ import CustomizeCard2 from "./CustomizeCard2";
 import CardDetails from "./CardDetails";
 import LeftNavigation from "../LeftNavigation/LeftNavigation";
 import FirstCard from "../CardTemplates/FirstCard";
-import Button from "../ReUsable/Button";
+import InviteeTools from "./InviteeTools";
 
 import { PDFViewer } from "@react-pdf/renderer";
 import { init } from "next/dist/compiled/webpack/webpack";
+import { removeAllListeners } from "process";
 
 const InnerPage = () => {
   const initialViewState = {
@@ -18,13 +19,58 @@ const InnerPage = () => {
     more: false,
   };
 
-  const date = new Date("2026-07-24");
-  const day = date.toLocaleDateString("en-US", { weekday: "long" });
-  const year = date.toLocaleString("en-US", { year: "numeric" });
-  const month = date
+  const initialCardData = {
+    location: "",
+
+    headerText: "",
+    salutation: "",
+    date: "",
+    contact: "",
+    description: "",
+    bride: "",
+    groom: "",
+    remark: "",
+    priceSingle: "",
+    priceDouble: "",
+    priceFamily: "",
+  };
+
+  const initialGuestSelection = {
+    plan: "",
+    firstName: "",
+    lastName: "",
+    mobileNumber: "",
+    price: "",
+  };
+
+  const [tempData, setTempData] = useState(initialCardData);
+  const [guestSelection, setGuestSelection] = useState(initialGuestSelection);
+  const [selectedElement, setSelectedElement] = useState(initialViewState);
+  const [cardData, setCardData] = useState(initialCardData);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const {
+    location,
+    headerText,
+    salutation,
+    date,
+    description,
+    bride,
+    groom,
+    remark,
+    contact,
+    priceDouble,
+    priceFamily,
+    priceSingle,
+  } = cardData;
+
+  const dater = new Date(date);
+  const day = dater.toLocaleDateString("en-US", { weekday: "long" });
+  const year = dater.toLocaleString("en-US", { year: "numeric" });
+  const month = dater
     .toLocaleDateString("en-US", { month: "long" })
     .toLocaleUpperCase();
-  const dayOfMonth = date.getDate();
+  const dayOfMonth = dater.getDate();
 
   const getOrdinalSuffix = (day: number) => {
     if (day > 3 && day < 21) return "th";
@@ -45,33 +91,27 @@ const InnerPage = () => {
   )} ${year}`;
 
   const dummydata = {
-    location: "Okinawa ",
-    headerText: "Ndugu Kaka Au Dada",
-    salutation: "The family of Ms.Lutufyo likes to invite you to ",
+    venue: location,
+    heading: headerText,
+    greet: salutation,
     date: fullDate,
-    contact: "0655312125",
-    description:
-      "orem ipsum dolor sit amet, consectetur adipisicing elit. Dolor enim molestiae repellat ex sapiente delectus placeat quos nulla quia iure, aliquam ipsam animi sunt tempora culpa eius molestias quibusdam asperiores ",
-    bride: "Violeth",
-    groom: "daniel",
-  };
-  const initialCardData = {
-    location: "",
-    // bodyFont: "",
-    headerText: "",
-    salutation: "",
-    date: "",
-    contact: "",
-    description: "",
-    bride: "",
-    groom: "",
+    mobileContact: contact,
+    details: description,
+    female: bride,
+    male: groom,
+    footer: remark,
+    singlePrice: priceSingle,
+    familyPrice: priceFamily,
+    doublePrice: priceDouble,
   };
 
-  const collectData = (e) => {
+  const collectData = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     e.preventDefault();
     const { name, value } = e.target;
 
-    state((prev) => {
+    setCardData((prev) => {
       return {
         ...prev,
         [name]: value,
@@ -85,14 +125,16 @@ const InnerPage = () => {
     });
   };
 
-  const submitData = (e) => {
+  const submitData = (e: any) => {
     e.preventDefault();
-    setTempData(initialData);
+    setTempData(initialCardData);
+    setIsSubmitted(true);
 
-    closeElement((prev) => {
+    setSelectedElement((prev) => {
       return {
         ...prev,
         text: false,
+        more: false,
       };
     });
   };
@@ -109,9 +151,7 @@ const InnerPage = () => {
     });
   };
 
-  const [tempData, setTempData] = useState(initialCardData);
-  const [selectedElement, setSelectedElement] = useState(initialViewState);
-  const [cardData, setCardData] = useState(initialCardData);
+  console.log(isSubmitted);
 
   let btnStyle =
     " font-montserrat rounded-md text-lg p-2 text-start hover:bg-blue-300 outline-none ";
@@ -128,46 +168,16 @@ const InnerPage = () => {
             voluptate minima! Assumenda?
           </p>
 
-          <section className=" flex gap-7 bg-100 mt-9 h-3/4 ">
+          <section className=" flex gap-7  mt-9 h-3/4 ">
             <div className=" bg-gray-200 w-2/4 rounded-xl ">
               <header className="text-2xl text-center font-montserrat shadow-sm bg-gray-100 rounded-l-xl">
                 Tool Box
               </header>
-              <article className=" flex flex-col gap-3   py-3 px-1">
-                <button className=" font-montserrat rounded-md text-lg p-2 text-start hover:bg-blue-300 ">
-                  Select Template
-                </button>
-                <Button
-                  identifier={"text"}
-                  method={handleCard}
-                  selectedElement={selectedElement.text}
-                >
-                  Customize Text
-                </Button>
-
-                {/* <Button
-                  identifier={"more"}
-                  method={handleCard}
-                  selectedElement={selectedElement.more}
-                >
-                  More Details
-                </Button> */}
-                {/* <Button
-                  identifier={"details"}
-                  method={handleCard}
-                  selectedElement={selectedElement.details}
-                >
-                  Add Card Details
-                </Button> */}
-
-                <Button
-                  identifier={"view"}
-                  method={handleCard}
-                  selectedElement={selectedElement.view}
-                >
-                  View Card
-                </Button>
-              </article>
+              <InviteeTools
+                handleCard={handleCard}
+                selectedElement={selectedElement}
+                domain={"invited"}
+              />
             </div>
             <div className=" bg-gray-200 w-2/4 rounded-lg ">
               <header className="text-2xl text-center font-montserrat shadow-sm bg-gray-100">
@@ -192,10 +202,17 @@ const InnerPage = () => {
                   previousPage={setSelectedElement}
                 />
               )}
-              {selectedElement.details && <CardDetails />}
+              {selectedElement.details && (
+                <CardDetails
+                  data={dummydata}
+                  handleGuestInput={setGuestSelection}
+                  selection={guestSelection}
+                  userData={dummydata}
+                />
+              )}
               {selectedElement.view && (
                 <PDFViewer className=" mt-5 w-11/12 mx-auto h-88%">
-                  <FirstCard cardInput={dummydata} />
+                  <FirstCard cardInput={dummydata} preview={isSubmitted} />
                 </PDFViewer>
               )}
             </div>
