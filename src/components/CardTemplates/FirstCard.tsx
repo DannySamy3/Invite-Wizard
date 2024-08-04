@@ -117,52 +117,56 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 65,
     right: 20,
-    width: 80,
-    height: 80,
+    width: 100,
+    height: 100,
     backgroundColor: "#f0f0f0",
     borderWidth: 1,
     borderColor: "#e76f51",
     alignItems: "center",
     justifyContent: "center",
   },
+  qrImage: {
+    width: 100, // Adjust the width as needed
+    height: 100, // Adjust the height as needed
+  },
 });
 
-const WeddingCard = ({ cardInput, preview }) => (
+const WeddingCard = ({ cardInput, preview, qrCode, guestCardData }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
         <Text style={styles.header}>
-          {preview ? cardInput.heading.toUpperCase() : ""}
+          {preview ? guestCardData.header_text.toUpperCase() : ""}
         </Text>
         <Text style={styles.salutation}>
-          {preview ? cardInput.greet.toUpperCase() : ""}
+          {preview ? guestCardData.salutation.toUpperCase() : ""}
         </Text>
         <Text style={styles.title2}>
-          {preview ? cardInput.male.toUpperCase() : ""}
+          {preview ? guestCardData.groom.toUpperCase() : ""}
         </Text>
         <Text style={styles.and}>{preview ? "&" : ""}</Text>
         <Text style={styles.title1}>
-          {preview ? cardInput.female.toUpperCase() : ""}
+          {preview ? guestCardData.bride.toUpperCase() : ""}
         </Text>
 
         <Text style={styles.content}>{`${
-          preview ? cardInput.date.concat(" , 8pm sharp !") : ""
+          preview ? guestCardData.date : ""
         }`}</Text>
 
-        <Text style={styles.content}>{cardInput.details}</Text>
+        <Text style={styles.content}>{guestCardData.description}</Text>
 
         <Text style={styles.content}>{`${
-          preview ? `Venue : ${cardInput.venue.toUpperCase()}` : ""
+          preview ? `Venue : ${guestCardData.venue.toUpperCase()}` : ""
         }`}</Text>
         <Text style={styles.footer}>{`${
-          preview ? `for more information call ${cardInput.mobileContact}` : ""
+          preview ? `for more information call ${guestCardData.contacts}` : ""
         }`}</Text>
-        <Text style={styles.venue}>{cardInput.footer}</Text>
+        <Text style={styles.venue}>{guestCardData.remark}</Text>
       </View>
 
       {preview && (
         <View style={styles.qrContainer}>
-          <Text>Scan QR Code</Text>
+          <Image source={{ uri: qrCode }} style={styles.qrImage} />
         </View>
       )}
     </Page>

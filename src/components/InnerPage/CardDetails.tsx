@@ -9,6 +9,10 @@ interface CardDetailsProps {
     mobileNumber: string;
   };
   userData: any;
+  handleGuestInput: (callback: (prev: any) => any) => void;
+  createGuest: () => void;
+  reset: any;
+  closeSection: (callback: (prev: any) => any) => void;
 }
 
 const CardDetails: React.FC<CardDetailsProps> = ({
@@ -18,6 +22,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({
   createGuest,
   reset,
   closeSection,
+  preview,
 }) => {
   const handleSelection = (e: any) => {
     e.preventDefault();
@@ -34,6 +39,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({
   const handleSubmission = (e: React.MouseEvent<HTMLButtonElement>) => {
     createGuest();
     handleGuestInput(reset);
+    preview(true);
     closeSection((prev) => {
       return {
         ...prev,

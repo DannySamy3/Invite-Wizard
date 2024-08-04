@@ -1,7 +1,7 @@
 import React from "react";
 
 interface CustomizeCard2Props {
-  handleSave: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleSave:any;
   handleDataSubmission: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
@@ -21,6 +21,7 @@ interface CustomizeCard2Props {
   };
   defaultView: any;
   previousPage: (callback: (prev: any) => any) => void;
+
 }
 
 const CustomizeCard2: React.FC<CustomizeCard2Props> = ({
@@ -29,6 +30,7 @@ const CustomizeCard2: React.FC<CustomizeCard2Props> = ({
   handleSave,
   defaultView,
   previousPage,
+  
 }) => {
   return (
     <div className="   font-montserrat font-semibold text-gray-500 rounded-lg">

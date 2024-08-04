@@ -51,9 +51,10 @@ export const inputCardData = async (data: any) => {
 
 export const fetchQRCode = async (data: any) => {
   try {
-    const response = await fetch(
-      `/cards/qr?data=${encodeURIComponent(JSON.stringify(data))}`
+    const response = await axiosInstance.get(
+      `/qr?data=${encodeURIComponent(JSON.stringify(data))}`
     );
+
     return response;
   } catch (error) {
     console.error("Error fetching QR code:", error);

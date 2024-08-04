@@ -10,6 +10,8 @@ import InviteeTools from "./InviteeTools";
 import { userInfo, inputCardData, fetchQRCode } from "@/Utils/userController";
 import { fetchGuestData } from "@/Utils/guestController";
 import { addPlans } from "@/Utils/priceController";
+import PreviewUserCard from "./PreviewUserCard";
+import { fetchCardAndUserData } from "@/Utils/guestController";
 
 import { PDFViewer } from "@react-pdf/renderer";
 
@@ -50,7 +52,11 @@ const InnerPage = () => {
   const [selectedElement, setSelectedElement] = useState(initialViewState);
   const [cardData, setCardData] = useState(initialCardData);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [loggedInUser, setLoggedInUser] = useState({});
+  const [loggedInUser, setLoggedInUser] = useState<any>({});
+  // const [data, setData] = useState<string>("");
+  const [preview, setPreview] = useState(false);
+  const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
+  const [guestCardJoins, setGuestCardJoins] = useState(null);
 
   const {
     location,
@@ -128,6 +134,20 @@ const InnerPage = () => {
     });
   };
 
+  const handleQrCode = async (data: any) => {
+    try {
+      const response = await fetchQRCode(data);
+      const result = await response?.data;
+      console.log(response);
+      if (response?.statusText === "OK") {
+        setQrCodeUrl(result.qrCode);
+      } else {
+        console.error("Error generating QR code:", result.error);
+      }
+    } catch (error) {
+      console.error("Error fetching QR code:", error);
+    }
+  };
   const submitData = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setTempData(initialCardData);
@@ -151,6 +171,7 @@ const InnerPage = () => {
       familyPrice,
       singlePrice,
       doublePrice,
+      mobileContact,
     } = dummydata;
 
     const submitDataPayload = {
@@ -163,6 +184,7 @@ const InnerPage = () => {
       description: details,
       user_id: loggedInUser.id,
       header_text: heading,
+      contacts: mobileContact,
     };
 
     try {
@@ -173,10 +195,8 @@ const InnerPage = () => {
         double: doublePrice,
         id_foreign: loggedInUser.id,
       });
-
     } catch (error) {
       console.error("Error submitting data:", error);
-    
     }
   };
 
@@ -194,13 +214,13 @@ const InnerPage = () => {
 
   const getLoggedUser = async () => {
     const user = await userInfo();
-    setLoggedInUser(user.data);
+    setLoggedInUser(user?.data);
   };
 
-  const addGuest = () => {
+  const addGuest = async () => {
     const { firstName, lastName, plan, mobileNumber } = guestSelection;
 
-    fetchGuestData({
+    const response = fetchGuestData({
       inviter_id: loggedInUser.id,
       first_name: firstName,
       last_name: lastName,
@@ -208,13 +228,20 @@ const InnerPage = () => {
       mobile_number: mobileNumber,
       status: "Not Paid",
     });
+    const guest = await response;
+
+    const fetchCard = await fetchCardAndUserData(loggedInUser.id);
+    setGuestCardJoins(fetchCard);
+
+    handleQrCode(guest.guest_id);
+    setPreview(true);
   };
 
   useEffect(() => {
     getLoggedUser();
   }, []);
 
-  console.log(dummydata);
+  console.log(qrCodeUrl);
 
   let btnStyle =
     " font-montserrat rounded-md text-lg p-2 text-start hover:bg-blue-300 outline-none ";
@@ -223,6 +250,16 @@ const InnerPage = () => {
     <div className="bg-gray-200 font-montserrat   h-screen overflow-y-hidden flex flex-row gap-0 outline-none">
       <LeftNavigation />
       <section className=" w-11/12 mt-3 mx-auto shadow-sm rounded-md">
+        {preview && (
+          <PreviewUserCard
+            cardInput={dummydata}
+            view={setPreview}
+            preview={isSubmitted}
+            qrCode={qrCodeUrl}
+            cardData={guestCardJoins}
+          />
+        )}
+
         <div className=" shadow-lg  flex flex-col gap-4 h-screen  p-10 bg-gray-300 rounded-xl mt-6">
           <p className="  text-xl font-semibold ml-1">
             {` ${
@@ -240,7 +277,7 @@ const InnerPage = () => {
               <InviteeTools
                 handleCard={handleCard}
                 selectedElement={selectedElement}
-                domain={"invitee"}
+                domain={"invited"}
               />
             </div>
             <div className=" bg-gray-200 w-2/4 rounded-lg ">
@@ -274,11 +311,17 @@ const InnerPage = () => {
                   handleGuestInput={setGuestSelection}
                   selection={guestSelection}
                   userData={dummydata}
+                  preview={setIsSubmitted}
                 />
               )}
               {selectedElement.view && (
                 <PDFViewer className=" mt-5 w-11/12 mx-auto h-88%">
-                  <FirstCard cardInput={dummydata} preview={isSubmitted} />
+                  <FirstCard
+                    cardInput={dummydata}
+                    preview={isSubmitted}
+                    qrCode={qrCodeUrl}
+                    guestCardData={guestCardJoins}
+                  />
                 </PDFViewer>
               )}
             </div>

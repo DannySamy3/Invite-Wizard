@@ -7,10 +7,20 @@ interface GuestData {
 export const fetchGuestData = async (data: GuestData): Promise<any> => {
   try {
     const response = await axiosInstance.post("/guests", data);
-    console.log(response.data); // Log only the necessary part of the response
+    // Log only the necessary part of the response
     return response.data;
   } catch (error) {
     console.error("Error fetching guest data:", error);
-    throw error; // Rethrow the error to handle it further up the call stack
+    throw error;
+  }
+};
+
+export const fetchCardAndUserData = async (id: number) => {
+  try {
+    const response = await axiosInstance.get(`/cards/user/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching card and user data:", error);
+    throw error;
   }
 };
