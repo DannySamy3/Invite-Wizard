@@ -3,7 +3,6 @@ import Link from "next/link";
 import nookies from "nookies";
 import { login } from "@/Utils/userController";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 interface SaveModalProps {
   triggleModal: (value: boolean) => void;
@@ -18,9 +17,7 @@ const Login = ({ handleLogin }: Login) => {
   const [error, setError] = useState("");
   const [token, setToken] = useState("");
 
-  const navigate = useRouter();
-
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     e.preventDefault();
     const { name, value } = e.target;
     setInput((prev) => {
@@ -31,18 +28,17 @@ const Login = ({ handleLogin }: Login) => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
     try {
       const response = login(input);
       const result = await response;
-      console.log(result);
-      if (result.statusText === "OK") {
+      if (result && result.statusText === "OK") {
         setToken(result?.data.token);
         // localStorage.setItem("authToken", token);
         // navigate.push("../innerHomePage");
         nookies.set(null, "token", result?.data.token, { path: "/" });
-        window.location.href = '../innerHomePage'; // Redirect to a protected page
+        window.location.href = "../innerHomePage"; // Redirect to a protected page
       }
 
       // alert("Login successful!");

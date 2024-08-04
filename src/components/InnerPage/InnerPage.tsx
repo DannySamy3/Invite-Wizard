@@ -1,16 +1,15 @@
 "use client";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CustomizeCard1 from "./CustomizeCard1";
 import CustomizeCard2 from "./CustomizeCard2";
 import CardDetails from "./CardDetails";
 import LeftNavigation from "../LeftNavigation/LeftNavigation";
 import FirstCard from "../CardTemplates/FirstCard";
 import InviteeTools from "./InviteeTools";
+import { userInfo, inputCardData } from "@/Utils/userController";
 
 import { PDFViewer } from "@react-pdf/renderer";
-import { init } from "next/dist/compiled/webpack/webpack";
-import { removeAllListeners } from "process";
 
 const InnerPage = () => {
   const initialViewState = {
@@ -49,6 +48,7 @@ const InnerPage = () => {
   const [selectedElement, setSelectedElement] = useState(initialViewState);
   const [cardData, setCardData] = useState(initialCardData);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState({});
 
   const {
     location,
@@ -66,7 +66,7 @@ const InnerPage = () => {
   } = cardData;
 
   const dater = new Date(date);
-  const day = dater.toLocaleDateString("en-US", { weekday: "long" });
+  // const day = dater.toLocaleDateString("en-US", { weekday: "long" });
   const year = dater.toLocaleString("en-US", { year: "numeric" });
   const month = dater
     .toLocaleDateString("en-US", { month: "long" })
@@ -126,7 +126,7 @@ const InnerPage = () => {
     });
   };
 
-  const submitData = (e: any) => {
+  const submitData = async (e: any) => {
     e.preventDefault();
     setTempData(initialCardData);
     setIsSubmitted(true);
@@ -138,6 +138,25 @@ const InnerPage = () => {
         more: false,
       };
     });
+
+    const { greet, female, male, venue, date, footer, details, heading } =
+      dummydata;
+
+    const submitData = {
+      salutation: greet,
+      bride: female,
+      groom: male,
+      venue,
+      date,
+      remark: footer,
+      description: details,
+      user_id: loggedInUser.id,
+      header_text: heading,
+    };
+
+    ///here
+
+    await inputCardData(submitData);
   };
 
   const handleCard = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -152,22 +171,38 @@ const InnerPage = () => {
     });
   };
 
-  console.log(isSubmitted);
+  const getLoggedUser = async () => {
+    const user = await userInfo();
+    setLoggedInUser(user.data);
+  };
+
+  useEffect(() => {
+    getLoggedUser();
+  }, []);
+
+  // console.log(loggedInUser);
 
   let btnStyle =
     " font-montserrat rounded-md text-lg p-2 text-start hover:bg-blue-300 outline-none ";
 
   return (
-    <div className="bg-gray-200  h-screen overflow-y-hidden flex flex-row gap-0 outline-none">
+    <div className="bg-gray-200 font-montserrat   h-screen overflow-y-hidden flex flex-row gap-0 outline-none">
       <LeftNavigation />
-      <section className=" w-11/12     mx-auto shadow-sm rounded-md">
-        <div className=" shadow-lg  flex flex-col gap-4 h-screen p-10 bg-gray-300 rounded-xl mt-6">
-          <p>
+      <section className=" w-11/12 mt-3 mx-auto shadow-sm rounded-md">
+        <div className=" shadow-lg  flex flex-col gap-4 h-screen  p-10 bg-gray-300 rounded-xl mt-6">
+          <p className="  text-xl font-semibold ml-1">
+            {` ${
+              loggedInUser.first_name
+                ? "Welcome ".concat(loggedInUser.first_name)
+                : ""
+            } ${loggedInUser.last_name ?? ""} `}
+          </p>
+          {/* <p>
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem
             eligendi amet debitis blanditiis corrupti quia, aut rem sint veniam
             ratione natus mollitia dolorum dolorem rerum error tenetur,
             voluptate minima! Assumenda?
-          </p>
+          </p> */}
 
           <section className=" flex gap-7  mt-9 h-3/4 ">
             <div className=" bg-gray-200 w-2/4 rounded-xl ">
