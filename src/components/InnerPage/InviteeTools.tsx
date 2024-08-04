@@ -52,7 +52,7 @@ const InviteeTools = ({ domain, handleCard, selectedElement }) => {
             Add Card Details
           </Button>
           <Button
-            identifier={"details"}
+            // identifier={"details"}
             method={handleCard}
             selectedElement={""}
           >

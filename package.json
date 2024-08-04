@@ -19,12 +19,14 @@
     "next": "14.2.4",
     "nookies": "^2.5.2",
     "pdfjs-dist": "^4.4.168",
+    "qrcode": "^1.5.3",
     "react": "^18",
     "react-dom": "^18",
     "react-router-dom": "^6.26.0"
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/qrcode": "^1.5.5",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "file-loader": "^6.2.0",

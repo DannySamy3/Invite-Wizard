@@ -21,7 +21,6 @@ interface CustomizeCard1Props {
 }
 
 const CustomizeCard1: React.FC<CustomizeCard1Props> = ({
-  handleSave,
   handleDataSubmission,
   tempData,
   nextPage,
@@ -51,10 +50,7 @@ const CustomizeCard1: React.FC<CustomizeCard1Props> = ({
 
   return (
     <div className="   font-montserrat font-semibold text-gray-500    rounded-lg">
-      <form
-        onSubmit={(e) => handleSave(e)}
-        className=" flex flex-col gap-6p px-6 py-2    "
-      >
+      <div className=" flex flex-col gap-6p px-6 py-2    ">
         <label>Header Text</label>
         <input
           type="text"
@@ -157,7 +153,7 @@ const CustomizeCard1: React.FC<CustomizeCard1Props> = ({
         >
           Next
         </button>
-      </form>
+      </div>
     </div>
   );
 };

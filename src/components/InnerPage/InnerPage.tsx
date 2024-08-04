@@ -7,7 +7,9 @@ import CardDetails from "./CardDetails";
 import LeftNavigation from "../LeftNavigation/LeftNavigation";
 import FirstCard from "../CardTemplates/FirstCard";
 import InviteeTools from "./InviteeTools";
-import { userInfo, inputCardData } from "@/Utils/userController";
+import { userInfo, inputCardData, fetchQRCode } from "@/Utils/userController";
+import { fetchGuestData } from "@/Utils/guestController";
+import { addPlans } from "@/Utils/priceController";
 
 import { PDFViewer } from "@react-pdf/renderer";
 
@@ -42,7 +44,7 @@ const InnerPage = () => {
     mobileNumber: "",
     price: "",
   };
-
+  let guestData = true;
   const [tempData, setTempData] = useState(initialCardData);
   const [guestSelection, setGuestSelection] = useState(initialGuestSelection);
   const [selectedElement, setSelectedElement] = useState(initialViewState);
@@ -126,23 +128,32 @@ const InnerPage = () => {
     });
   };
 
-  const submitData = async (e: any) => {
+  const submitData = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setTempData(initialCardData);
     setIsSubmitted(true);
 
-    setSelectedElement((prev) => {
-      return {
-        ...prev,
-        text: false,
-        more: false,
-      };
-    });
+    setSelectedElement((prev) => ({
+      ...prev,
+      text: false,
+      more: false,
+    }));
 
-    const { greet, female, male, venue, date, footer, details, heading } =
-      dummydata;
+    const {
+      greet,
+      female,
+      male,
+      venue,
+      date,
+      footer,
+      details,
+      heading,
+      familyPrice,
+      singlePrice,
+      doublePrice,
+    } = dummydata;
 
-    const submitData = {
+    const submitDataPayload = {
       salutation: greet,
       bride: female,
       groom: male,
@@ -154,9 +165,19 @@ const InnerPage = () => {
       header_text: heading,
     };
 
-    ///here
+    try {
+      await inputCardData(submitDataPayload);
+      await addPlans({
+        family: familyPrice,
+        single: singlePrice,
+        double: doublePrice,
+        id_foreign: loggedInUser.id,
+      });
 
-    await inputCardData(submitData);
+    } catch (error) {
+      console.error("Error submitting data:", error);
+    
+    }
   };
 
   const handleCard = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -176,11 +197,24 @@ const InnerPage = () => {
     setLoggedInUser(user.data);
   };
 
+  const addGuest = () => {
+    const { firstName, lastName, plan, mobileNumber } = guestSelection;
+
+    fetchGuestData({
+      inviter_id: loggedInUser.id,
+      first_name: firstName,
+      last_name: lastName,
+      plan: plan,
+      mobile_number: mobileNumber,
+      status: "Not Paid",
+    });
+  };
+
   useEffect(() => {
     getLoggedUser();
   }, []);
 
-  // console.log(loggedInUser);
+  console.log(dummydata);
 
   let btnStyle =
     " font-montserrat rounded-md text-lg p-2 text-start hover:bg-blue-300 outline-none ";
@@ -197,12 +231,6 @@ const InnerPage = () => {
                 : ""
             } ${loggedInUser.last_name ?? ""} `}
           </p>
-          {/* <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem
-            eligendi amet debitis blanditiis corrupti quia, aut rem sint veniam
-            ratione natus mollitia dolorum dolorem rerum error tenetur,
-            voluptate minima! Assumenda?
-          </p> */}
 
           <section className=" flex gap-7  mt-9 h-3/4 ">
             <div className=" bg-gray-200 w-2/4 rounded-xl ">
@@ -222,7 +250,6 @@ const InnerPage = () => {
 
               {selectedElement.text && !selectedElement.more && (
                 <CustomizeCard1
-                  handleSave={submitData}
                   handleDataSubmission={collectData}
                   tempData={tempData}
                   nextPage={setSelectedElement}
@@ -240,7 +267,10 @@ const InnerPage = () => {
               )}
               {selectedElement.details && (
                 <CardDetails
+                  createGuest={addGuest}
                   data={dummydata}
+                  reset={initialGuestSelection}
+                  closeSection={setSelectedElement}
                   handleGuestInput={setGuestSelection}
                   selection={guestSelection}
                   userData={dummydata}

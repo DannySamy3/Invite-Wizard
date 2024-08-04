@@ -1,7 +1,5 @@
 import React from "react";
 
-import { inputCardData } from "@/Utils/userController";
-
 interface CustomizeCard2Props {
   handleSave: (e: React.FormEvent<HTMLFormElement>) => void;
   handleDataSubmission: (
@@ -34,13 +32,10 @@ const CustomizeCard2: React.FC<CustomizeCard2Props> = ({
 }) => {
   return (
     <div className="   font-montserrat font-semibold text-gray-500 rounded-lg">
-      <form
-        onSubmit={(e) => handleSave(e)}
-        className=" flex flex-col gap-6p px-6 py-4    "
-      >
+      <div className=" flex flex-col gap-6p px-6 py-4    ">
         <label>Single Price</label>
         <input
-          name="single"
+          name="priceSingle"
           onChange={(e) => handleDataSubmission(e)}
           type="text"
           value={tempData.singlePrice}
@@ -49,7 +44,7 @@ const CustomizeCard2: React.FC<CustomizeCard2Props> = ({
         />
         <label>Double Price</label>
         <input
-          name="double"
+          name="priceDouble"
           onChange={(e) => handleDataSubmission(e)}
           type="text"
           value={tempData.doublePrice}
@@ -58,7 +53,7 @@ const CustomizeCard2: React.FC<CustomizeCard2Props> = ({
         />
         <label>Family Price</label>
         <input
-          name="familyPrice"
+          name="priceFamily"
           onChange={(e) => handleDataSubmission(e)}
           type="text"
           value={tempData.familyPrice}
@@ -100,12 +95,14 @@ const CustomizeCard2: React.FC<CustomizeCard2Props> = ({
             Back
           </button>
 
-          <input
-            type="submit"
+          <button
+            onClick={(e) => handleSave(e)}
             className=" bg-green-800 py-4 w-28 rounded-md my-2 text-white hover:bg-green-600 hover:text-black "
-          />
+          >
+            Save
+          </button>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

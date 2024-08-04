@@ -32,7 +32,7 @@ export const userInfo = async () => {
     const response = await axiosInstance.get("users/data", {
       withCredentials: true,
     });
-    // console.log(response.data);
+
     return response;
   } catch (error) {
     console.error("Error fetching user data:", error);
@@ -46,5 +46,16 @@ export const inputCardData = async (data: any) => {
     return response;
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const fetchQRCode = async (data: any) => {
+  try {
+    const response = await fetch(
+      `/cards/qr?data=${encodeURIComponent(JSON.stringify(data))}`
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching QR code:", error);
   }
 };
