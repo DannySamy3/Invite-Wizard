@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import CustomizeCard1 from "./CustomizeCard1";
 import CustomizeCard2 from "./CustomizeCard2";
 import CardDetails from "./CardDetails";
+import ShowDataBase from "./ShowDataBase";
 import LeftNavigation from "../LeftNavigation/LeftNavigation";
 import FirstCard from "../CardTemplates/FirstCard";
 import InviteeTools from "./InviteeTools";
@@ -53,10 +54,12 @@ const InnerPage = () => {
   const [cardData, setCardData] = useState(initialCardData);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState<any>({});
-  // const [data, setData] = useState<string>("");
+  const [showDataBase, setShowDataBase] = useState(false);
   const [preview, setPreview] = useState(false);
   const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
   const [guestCardJoins, setGuestCardJoins] = useState(null);
+  const [dbData, setDbData] = useState(null);
+  const [getGuest, setgetGuest] = useState(null);
 
   const {
     location,
@@ -231,7 +234,7 @@ const InnerPage = () => {
     const guest = await response;
 
     const fetchCard = await fetchCardAndUserData(loggedInUser.id);
-    setGuestCardJoins(fetchCard);
+    setGuestCardJoins(fetchCard[0]);
 
     handleQrCode(guest.guest_id);
     setPreview(true);
@@ -241,15 +244,35 @@ const InnerPage = () => {
     getLoggedUser();
   }, []);
 
-  console.log(qrCodeUrl);
-
   let btnStyle =
     " font-montserrat rounded-md text-lg p-2 text-start hover:bg-blue-300 outline-none ";
 
+  const toolStyle = ` w-11/12 mt-3 mx-auto shadow-sm rounded-md ${
+    showDataBase ? "hidden" : ""
+  }`;
+
+  const handleData = async (id: any) => {
+    try {
+      
+      const response = await fetchCardAndUserData(id);
+     
+
+      setDbData(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="bg-gray-200 font-montserrat   h-screen overflow-y-hidden flex flex-row gap-0 outline-none">
-      <LeftNavigation />
-      <section className=" w-11/12 mt-3 mx-auto shadow-sm rounded-md">
+      <LeftNavigation
+        showDb={setShowDataBase}
+        handleData={handleData}
+        dbShow={showDataBase}
+        id={loggedInUser.id}
+      />
+      {showDataBase && <ShowDataBase data={dbData} changeUser={setgetGuest}  />}
+      <section className={toolStyle}>
         {preview && (
           <PreviewUserCard
             cardInput={dummydata}
@@ -278,6 +301,7 @@ const InnerPage = () => {
                 handleCard={handleCard}
                 selectedElement={selectedElement}
                 domain={"invited"}
+                // handleShowCard={is}
               />
             </div>
             <div className=" bg-gray-200 w-2/4 rounded-lg ">

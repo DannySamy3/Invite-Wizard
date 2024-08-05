@@ -24,3 +24,12 @@ export const fetchCardAndUserData = async (id: number) => {
     throw error;
   }
 };
+export const editGuestStatus = async (data) => {
+  try {
+    const response = await axiosInstance.post(`/guests/edit`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching card and user data:", error);
+    throw error;
+  }
+};

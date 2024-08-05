@@ -131,37 +131,65 @@ const styles = StyleSheet.create({
   },
 });
 
+const formatDate = (date: string) => {
+  const parsedDate = new Date(date);
+  return isNaN(parsedDate.getTime()) ? "" : parsedDate.toDateString();
+};
+
 const WeddingCard = ({ cardInput, preview, qrCode, guestCardData }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
         <Text style={styles.header}>
-          {preview ? guestCardData.header_text.toUpperCase() : ""}
+          {preview && guestCardData && guestCardData.header_text
+            ? guestCardData.header_text.toUpperCase()
+            : cardInput.heading}
         </Text>
         <Text style={styles.salutation}>
-          {preview ? guestCardData.salutation.toUpperCase() : ""}
+          {preview && guestCardData && guestCardData.salutation
+            ? guestCardData.salutation.toUpperCase()
+            : cardInput.greet}
         </Text>
         <Text style={styles.title2}>
-          {preview ? guestCardData.groom.toUpperCase() : ""}
+          {preview && guestCardData && guestCardData.groom
+            ? guestCardData.groom.toUpperCase()
+            : cardInput.male}
         </Text>
         <Text style={styles.and}>{preview ? "&" : ""}</Text>
         <Text style={styles.title1}>
-          {preview ? guestCardData.bride.toUpperCase() : ""}
+          {preview && guestCardData && guestCardData.bride
+            ? guestCardData.bride.toUpperCase()
+            : cardInput.female}
         </Text>
 
-        <Text style={styles.content}>{`${
-          preview ? guestCardData.date : ""
+        <Text style={styles.date}>{`${
+          preview && guestCardData && guestCardData.date
+            ? formatDate(guestCardData.date)
+            : formatDate(cardInput.date)
         }`}</Text>
 
-        <Text style={styles.content}>{guestCardData.description}</Text>
-
-        <Text style={styles.content}>{`${
-          preview ? `Venue : ${guestCardData.venue.toUpperCase()}` : ""
-        }`}</Text>
+        <Text style={styles.description}>
+          {preview && guestCardData && guestCardData.description
+            ? guestCardData.description
+            : cardInput.details}
+        </Text>
+        <Text style={styles.venue}>
+          {preview &&
+            `Venue : ${
+              guestCardData && guestCardData.venue
+                ? guestCardData.venue.toUpperCase()
+                : cardInput.venue
+            }`}
+        </Text>
         <Text style={styles.footer}>{`${
-          preview ? `for more information call ${guestCardData.contacts}` : ""
+          preview
+            ? `for more information call ${
+                guestCardData && guestCardData.contacts
+                  ? guestCardData.contacts
+                  : cardInput.mobileContact
+              }`
+            : ""
         }`}</Text>
-        <Text style={styles.venue}>{guestCardData.remark}</Text>
       </View>
 
       {preview && (

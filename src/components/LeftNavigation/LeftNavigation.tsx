@@ -1,6 +1,12 @@
+"use client";
 import React from "react";
+import { useEffect } from "react";
 
-const LeftNavigation = () => {
+const LeftNavigation = ({ showDb, handleData, id, dbShow }) => {
+  useEffect(() => {
+    handleData(id);
+  }, [id, dbShow]);
+
   return (
     <div className="drawer w-0  relative">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
@@ -34,11 +40,11 @@ const LeftNavigation = () => {
         ></label>
         <ul className="menu bg-base-200  min-h-full w-80 p-4 font-montserrat text-black text-sm font-normal">
           {/* Sidebar content here */}
-          <li className=" hover:font-bold">
-            <a>Home</a>
+          <li className=" hover:font-bold text-lg mb-2">
+            <button onClick={() => showDb(false)}>Home</button>
           </li>
-          <li className=" hover:font-bold">
-            <a>Sidebar Item 2</a>
+          <li className=" hover:font-bold text-lg ">
+            <button onClick={() => showDb(true)}> Guests</button>
           </li>
         </ul>
       </div>
