@@ -1,5 +1,7 @@
+"use client";
 import React from "react";
 import Button from "../ReUsable/Button";
+import ShareButton from "../ShareButton/ShareButton";
 
 interface SelectedElement {
   text?: string;
@@ -10,7 +12,7 @@ interface SelectedElement {
 
 // Define the interface for the props of InviteeTools
 interface InviteeToolsProps {
-  domain: "invitee" | "invited";
+  domain: any;
   handleCard: any;
   selectedElement: any;
 }
@@ -22,11 +24,8 @@ const InviteeTools: React.FC<InviteeToolsProps> = ({
 }) => {
   return (
     <div>
-      {domain === "invitee" && (
+      {domain === "user" && (
         <article className=" flex flex-col gap-3   py-3 px-1">
-          {/* <button className=" font-montserrat rounded-md text-lg p-2 text-start hover:bg-blue-300 ">
-            Select Template
-          </button> */}
           <Button
             identifier={"text"}
             method={handleCard}
@@ -35,13 +34,6 @@ const InviteeTools: React.FC<InviteeToolsProps> = ({
             Customize Text
           </Button>
 
-          {/* <Button
-                  identifier={"more"}
-                  method={handleCard}
-                  selectedElement={selectedElement.more}
-                >
-                  More Details
-                </Button> */}
           {/* <Button
                   identifier={"details"}
                   method={handleCard}
@@ -57,6 +49,14 @@ const InviteeTools: React.FC<InviteeToolsProps> = ({
           >
             View Card
           </Button>
+
+          {/* <Button
+            identifier={"share"}
+            method={handleCard}
+            selectedElement={selectedElement.more}
+          >
+            Share Card
+          </Button> */}
         </article>
       )}
 

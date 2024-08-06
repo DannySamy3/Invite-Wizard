@@ -37,7 +37,7 @@ const CustomizeCard2: React.FC<CustomizeCard2Props> = ({
       <div className=" flex flex-col gap-6p px-6 py-4    ">
         <label>Single Price</label>
         <input
-          name="priceSingle"
+          name="singlePrice"
           onChange={(e) => handleDataSubmission(e)}
           type="text"
           value={tempData.singlePrice}
@@ -46,7 +46,7 @@ const CustomizeCard2: React.FC<CustomizeCard2Props> = ({
         />
         <label>Double Price</label>
         <input
-          name="priceDouble"
+          name="doublePrice"
           onChange={(e) => handleDataSubmission(e)}
           type="text"
           value={tempData.doublePrice}
@@ -55,7 +55,7 @@ const CustomizeCard2: React.FC<CustomizeCard2Props> = ({
         />
         <label>Family Price</label>
         <input
-          name="priceFamily"
+          name="familyPrice"
           onChange={(e) => handleDataSubmission(e)}
           type="text"
           value={tempData.familyPrice}

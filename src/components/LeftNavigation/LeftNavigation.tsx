@@ -7,6 +7,7 @@ interface LeftNavigationProps {
   handleData: (id: string) => void;
   id: string;
   dbShow: boolean;
+  shareType: any;
 }
 
 const LeftNavigation: React.FC<LeftNavigationProps> = ({
@@ -14,6 +15,7 @@ const LeftNavigation: React.FC<LeftNavigationProps> = ({
   handleData,
   id,
   dbShow,
+  shareType,
 }) => {
   useEffect(() => {
     handleData(id);
@@ -55,7 +57,11 @@ const LeftNavigation: React.FC<LeftNavigationProps> = ({
           <li className=" hover:font-bold text-lg mb-2">
             <button onClick={() => showDb(false)}>Home</button>
           </li>
-          <li className=" hover:font-bold text-lg ">
+          <li
+            className={` hover:font-bold text-lg ${
+              shareType === "invited" ? "hidden" : ""
+            } `}
+          >
             <button onClick={() => showDb(true)}> Guests</button>
           </li>
         </ul>

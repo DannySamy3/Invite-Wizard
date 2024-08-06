@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import CustomizeCard1 from "./CustomizeCard1";
 import CustomizeCard2 from "./CustomizeCard2";
 import CardDetails from "./CardDetails";
+import ShareButton from "../ShareButton/ShareButton";
 import ShowDataBase from "./ShowDataBase";
 import LeftNavigation from "../LeftNavigation/LeftNavigation";
 import FirstCard from "../CardTemplates/FirstCard";
@@ -22,6 +23,7 @@ const InnerPage = () => {
     details: false,
     view: false,
     more: false,
+    share: false,
   };
 
   const initialCardData = {
@@ -74,6 +76,7 @@ const InnerPage = () => {
   const [guestCardJoins, setGuestCardJoins] = useState(null);
   const [dbData, setDbData] = useState(null);
   const [getGuest, setgetGuest] = useState(null);
+  const [userType, setUserType] = useState("user");
 
   const {
     location,
@@ -256,6 +259,9 @@ const InnerPage = () => {
 
   useEffect(() => {
     getLoggedUser();
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get("userType");
+    if (type === "user" || type === "invited") setUserType(type);
   }, []);
 
   let btnStyle =
@@ -282,6 +288,7 @@ const InnerPage = () => {
         handleData={handleData}
         dbShow={showDataBase}
         id={loggedInUser.id}
+        shareType={userType}
       />
       {showDataBase && <ShowDataBase data={dbData} changeUser={setgetGuest} />}
       <section className={toolStyle}>
@@ -296,13 +303,33 @@ const InnerPage = () => {
         )}
 
         <div className=" shadow-lg  flex flex-col gap-4 h-screen  p-10 bg-gray-300 rounded-xl mt-6">
-          <p className="  text-xl font-semibold ml-1">
+          <p
+            className={` ${
+              userType === "invited" ? "hidden" : " "
+            }  text-xl font-semibold ml-1`}
+          >
             {` ${
               loggedInUser.first_name
                 ? "Welcome ".concat(loggedInUser.first_name)
                 : ""
             } ${loggedInUser.last_name ?? ""} `}
           </p>
+
+          <div
+            className={` ${
+              userType === "invited" ? "" : "hidden"
+            }  text-normal font-semibold ml-1 flex flex-col gap-1 leading-9`}
+          >
+            <span className=" text-xl text-center text-gray-600 ">
+              Welcome to {loggedInUser.first_name} {loggedInUser.last_name}{" "}
+              Wedding! 🎉
+            </span>{" "}
+            <span className=" text-center text-gray-600 ">
+              Enter Your Details to confirm your invitation, select a Plan from
+              the options available, then Download the card 💍
+            </span>
+          
+          </div>
 
           <section className=" flex gap-7  mt-9 h-3/4 ">
             <div className=" bg-gray-200 w-2/4 rounded-xl ">
@@ -312,8 +339,14 @@ const InnerPage = () => {
               <InviteeTools
                 handleCard={handleCard}
                 selectedElement={selectedElement}
-                domain={"invitee"}
+                domain={userType}
                 // handleShowCard={is}
+              />
+              <ShareButton
+                userType={userType}
+                display={userType}
+                selectedElement={selectedElement}
+                handleCard={handleCard}
               />
             </div>
             <div className=" bg-gray-200 w-2/4 rounded-lg ">
