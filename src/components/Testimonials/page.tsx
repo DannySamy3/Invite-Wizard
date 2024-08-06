@@ -1,7 +1,6 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-
-
 
 interface Testimonial {
   id: number;
@@ -10,7 +9,6 @@ interface Testimonial {
   job: string;
   img: string;
 }
-
 
 const Testimonial = () => {
   const [testimonial, setTestimonial] = useState<Testimonial[]>([]);
