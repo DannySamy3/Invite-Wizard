@@ -1,12 +1,24 @@
 "use client";
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const LeftNavigation = ({ showDb, handleData, id, dbShow }) => {
+interface LeftNavigationProps {
+  showDb: (show: boolean) => void;
+  handleData: (id: string) => void;
+  id: string;
+  dbShow: boolean;
+}
+
+const LeftNavigation: React.FC<LeftNavigationProps> = ({
+  showDb,
+  handleData,
+  id,
+  dbShow,
+}) => {
   useEffect(() => {
     handleData(id);
   }, [id, dbShow]);
-
+  const [isClosed, setIsClosed] = useState(false);
   return (
     <div className="drawer w-0  relative">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
@@ -22,7 +34,7 @@ const LeftNavigation = ({ showDb, handleData, id, dbShow }) => {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className=" w-8 h-8"
+            className=" w-8 h-8 cursor-pointer"
           >
             <path
               strokeLinecap="round"
@@ -36,9 +48,9 @@ const LeftNavigation = ({ showDb, handleData, id, dbShow }) => {
         <label
           htmlFor="my-drawer"
           aria-label="close sidebar"
-          className="drawer-overlay"
+          className="drawer-overlay "
         ></label>
-        <ul className="menu bg-base-200  min-h-full w-80 p-4 font-montserrat text-black text-sm font-normal">
+        <ul className="menu bg-base-200   min-h-full w-80 p-4 font-montserrat text-black text-sm font-normal">
           {/* Sidebar content here */}
           <li className=" hover:font-bold text-lg mb-2">
             <button onClick={() => showDb(false)}>Home</button>

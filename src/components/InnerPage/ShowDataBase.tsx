@@ -1,8 +1,23 @@
 "use client";
 import React, { useState } from "react";
 
+interface GuestData {
+  guest_id: string;
+  first_name: string;
+  last_name: string;
+  mobile_number: string;
+  plan: string;
+  inviter_id: string;
+  status: "Paid" | "Not Paid";
+}
+
+interface ShowDataBaseProps {
+  data: any;
+  changeUser: any;
+}
+
 import { editGuestStatus } from "@/Utils/guestController";
-const ShowDataBase = ({ data, changeUser }) => {
+const ShowDataBase: React.FC<ShowDataBaseProps> = ({ data, changeUser }) => {
   const [pageData, handlePageData] = useState(data);
   const handleChangeUser = async (data: any) => {
     try {
@@ -26,9 +41,9 @@ const ShowDataBase = ({ data, changeUser }) => {
       };
       const response = await editGuestStatus(sentData);
 
-      handlePageData((prev:any) => {
+      handlePageData((prev: any) => {
         // Replace existing guest data or add updated guest data
-        const updatedPageData = prev.map((item:any) =>
+        const updatedPageData = prev.map((item: any) =>
           item.guest_id === response.guest_id ? response : item
         );
         return updatedPageData;
@@ -40,10 +55,12 @@ const ShowDataBase = ({ data, changeUser }) => {
   };
 
   return (
-    <div className="w-11/12 mx-auto bg-gray-200 font-montserrat   h-screen flex flex-row gap-0 outline-none">
-      {/* <head>INVITED GUEST</head> */}
-      <section className=" w-full mt-16 bg-gray-300 p-6 h-5/6 mx-auto shadow-sm rounded-md overflow-y-auto">
-        <article className=" grid grid-cols-6 p-4 font-semibold text-xl  bg-gradient-radial from-slate-500">
+    <div className="w-full mx-auto flex flex-col bg-gradient-to-tr from-slate-600 font-montserrat   h-screen  gap-0 outline-none">
+      <header className=" mt-7  w-full decoration-slate-400 text-4xl text-center text-stone-600 font-playfair">
+        INVITED GUEST
+      </header>
+      <section className="w-11/12 mt-10 bg-gray-50 p-6 h-5/6 mx-auto shadow-sm rounded-md overflow-y-auto">
+        <article className=" grid grid-cols-6 p-4 font-semibold text-xl rounded-md  bg-gradient-radial from-slate-400">
           <label>S/N</label>
           <label>Name</label>
           <label>Last Name</label>
@@ -52,24 +69,24 @@ const ShowDataBase = ({ data, changeUser }) => {
           <label>Status</label>
         </article>
 
-        {pageData.map((result: any, i: number) => {
+        {pageData?.map((result: any, i: number) => {
           return (
             <div
               key={i}
-              className=" grid grid-cols-6 px-4 my-5  py-3 rounded-md  text-lg"
+              className="  grid grid-cols-6 px-5 my-5 hover:bg-gray-200  py-2 rounded-md  text-lg"
             >
               <p className="">{i + 1}</p>
               <p className="text-start"> {result.first_name}</p>
               <p> {result.last_name}</p>
               <p> {result.mobile_number}</p>
-              <p> {result.plan.toUpperCase()}</p>
+              <p className=""> {result.plan.toUpperCase()}</p>
               <button
                 onClick={() => handleChangeUser(result)}
                 className={` ${
                   result.status === "Not Paid"
                     ? " hover:bg-red-600"
                     : " hover:bg-green-600"
-                } hover:rounded-md hover:py-3 hover:text-white`}
+                } hover:rounded-md hover:py-2 hover:px-4 w-fit hover:text-white`}
               >
                 {result.status}
               </button>

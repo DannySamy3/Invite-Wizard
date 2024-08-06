@@ -1,14 +1,32 @@
 import React from "react";
 import Button from "../ReUsable/Button";
 
-const InviteeTools = ({ domain, handleCard, selectedElement }) => {
+interface SelectedElement {
+  text?: string;
+  more?: string;
+  details?: string;
+  view?: string;
+}
+
+// Define the interface for the props of InviteeTools
+interface InviteeToolsProps {
+  domain: "invitee" | "invited";
+  handleCard: any;
+  selectedElement: any;
+}
+
+const InviteeTools: React.FC<InviteeToolsProps> = ({
+  domain,
+  handleCard,
+  selectedElement,
+}) => {
   return (
     <div>
       {domain === "invitee" && (
         <article className=" flex flex-col gap-3   py-3 px-1">
-          <button className=" font-montserrat rounded-md text-lg p-2 text-start hover:bg-blue-300 ">
+          {/* <button className=" font-montserrat rounded-md text-lg p-2 text-start hover:bg-blue-300 ">
             Select Template
-          </button>
+          </button> */}
           <Button
             identifier={"text"}
             method={handleCard}
@@ -51,13 +69,13 @@ const InviteeTools = ({ domain, handleCard, selectedElement }) => {
           >
             Add Card Details
           </Button>
-          <Button
+          {/* <Button
             // identifier={"details"}
             method={handleCard}
             selectedElement={""}
           >
             View Card
-          </Button>
+          </Button> */}
         </div>
       )}
     </div>

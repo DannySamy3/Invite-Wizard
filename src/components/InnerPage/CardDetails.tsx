@@ -13,6 +13,7 @@ interface CardDetailsProps {
   createGuest: () => void;
   reset: any;
   closeSection: (callback: (prev: any) => any) => void;
+  preview: any;
 }
 
 const CardDetails: React.FC<CardDetailsProps> = ({

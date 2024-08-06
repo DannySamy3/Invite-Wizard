@@ -2,7 +2,31 @@ import React from "react";
 import { PDFViewer } from "@react-pdf/renderer";
 import FirstCard from "../CardTemplates/FirstCard";
 
-const PreviewUserCard = ({ cardInput, preview, view, qrCode, cardData }) => {
+interface CardInput {
+  // Define the properties based on what cardInput is expected to have
+  [key: string]: any;
+}
+
+interface CardData {
+  // Define the properties based on what cardData is expected to have
+  [key: string]: any;
+}
+
+interface PreviewUserCardProps {
+  cardInput: CardInput;
+  preview: boolean;
+  view: (show: boolean) => void;
+  qrCode: any;
+  cardData: any;
+}
+
+const PreviewUserCard: React.FC<PreviewUserCardProps> = ({
+  cardInput,
+  preview,
+  view,
+  qrCode,
+  cardData,
+}) => {
   return (
     <div className=" ">
       <div className="absolute inset-0 bg-black opacity-75 "></div>

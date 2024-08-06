@@ -2,7 +2,6 @@
 import React from "react";
 import backgroundImage from "/public/images/4.jpg";
 import {
-  PDFViewer,
   Document,
   Page,
   Text,
@@ -131,12 +130,24 @@ const styles = StyleSheet.create({
   },
 });
 
+interface WeddingCardProps {
+  cardInput: any;
+  preview: boolean;
+  qrCode: any;
+  guestCardData?: any;
+}
+
 const formatDate = (date: string) => {
   const parsedDate = new Date(date);
   return isNaN(parsedDate.getTime()) ? "" : parsedDate.toDateString();
 };
 
-const WeddingCard = ({ cardInput, preview, qrCode, guestCardData }) => (
+const WeddingCard: React.FC<WeddingCardProps> = ({
+  cardInput,
+  preview,
+  qrCode,
+  guestCardData,
+}) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
@@ -191,9 +202,9 @@ const WeddingCard = ({ cardInput, preview, qrCode, guestCardData }) => (
             : ""
         }`}</Text>
       </View>
-
       {preview && (
         <View style={styles.qrContainer}>
+          {/* @ts-ignore */}
           <Image source={{ uri: qrCode }} style={styles.qrImage} />
         </View>
       )}

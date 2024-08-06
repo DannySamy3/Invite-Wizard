@@ -24,7 +24,7 @@ export const fetchCardAndUserData = async (id: number) => {
     throw error;
   }
 };
-export const editGuestStatus = async (data) => {
+export const editGuestStatus = async (data:any) => {
   try {
     const response = await axiosInstance.post(`/guests/edit`, data);
     return response.data;

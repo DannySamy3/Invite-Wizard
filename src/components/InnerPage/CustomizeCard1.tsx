@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 
 interface CustomizeCard1Props {
-  handleSave: (e: React.FormEvent<HTMLFormElement>) => void;
+  
   handleDataSubmission: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;

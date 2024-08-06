@@ -39,6 +39,20 @@ const InnerPage = () => {
     priceDouble: "",
     priceFamily: "",
   };
+  const initCardData = {
+    headerText: "Header",
+    salutation: "",
+    bride: "",
+    groom: "J",
+    location: "",
+    date: "",
+    contact: "",
+    description: "",
+    remark: "",
+    singlePrice: "1",
+    familyPrice: "",
+    doublePrice: "",
+  };
 
   const initialGuestSelection = {
     plan: "",
@@ -48,7 +62,7 @@ const InnerPage = () => {
     price: "",
   };
   let guestData = true;
-  const [tempData, setTempData] = useState(initialCardData);
+  const [tempData, setTempData] = useState(initCardData);
   const [guestSelection, setGuestSelection] = useState(initialGuestSelection);
   const [selectedElement, setSelectedElement] = useState(initialViewState);
   const [cardData, setCardData] = useState(initialCardData);
@@ -153,7 +167,7 @@ const InnerPage = () => {
   };
   const submitData = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setTempData(initialCardData);
+    setTempData(initCardData);
     setIsSubmitted(true);
 
     setSelectedElement((prev) => ({
@@ -253,9 +267,7 @@ const InnerPage = () => {
 
   const handleData = async (id: any) => {
     try {
-      
       const response = await fetchCardAndUserData(id);
-     
 
       setDbData(response);
     } catch (error) {
@@ -271,7 +283,7 @@ const InnerPage = () => {
         dbShow={showDataBase}
         id={loggedInUser.id}
       />
-      {showDataBase && <ShowDataBase data={dbData} changeUser={setgetGuest}  />}
+      {showDataBase && <ShowDataBase data={dbData} changeUser={setgetGuest} />}
       <section className={toolStyle}>
         {preview && (
           <PreviewUserCard
@@ -300,7 +312,7 @@ const InnerPage = () => {
               <InviteeTools
                 handleCard={handleCard}
                 selectedElement={selectedElement}
-                domain={"invited"}
+                domain={"invitee"}
                 // handleShowCard={is}
               />
             </div>
