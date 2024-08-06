@@ -35,9 +35,9 @@ const config: Config = {
         "86%": "86%", // Add the custom value here
         "88%": "88%", // Add the custom value here
       },
-      gridTemplateColumns: {
-        "custom-mine": "128px 100px",
-      },
+      // gridTemplateColumns: {
+      
+      // },
 
       keyframes: {
         fadeIn: {
@@ -75,6 +75,7 @@ const config: Config = {
       },
       gridTemplateColumns: {
         custom: "550px 1fr",
+        "custom-mine": "128px 100px",
       },
 
       width: {
