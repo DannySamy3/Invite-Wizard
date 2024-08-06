@@ -15,6 +15,7 @@ import { addPlans } from "@/Utils/priceController";
 import PreviewUserCard from "./PreviewUserCard";
 import { fetchCardAndUserData } from "@/Utils/guestController";
 
+
 import { PDFViewer } from "@react-pdf/renderer";
 
 const InnerPage = () => {
@@ -252,6 +253,7 @@ const InnerPage = () => {
 
     const fetchCard = await fetchCardAndUserData(loggedInUser.id);
     setGuestCardJoins(fetchCard[0]);
+    console.log(fetchCard);
 
     handleQrCode(guest.guest_id);
     setPreview(true);
@@ -328,7 +330,6 @@ const InnerPage = () => {
               Enter Your Details to confirm your invitation, select a Plan from
               the options available, then Download the card 💍
             </span>
-          
           </div>
 
           <section className=" flex gap-7  mt-9 h-3/4 ">

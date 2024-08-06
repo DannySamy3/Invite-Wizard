@@ -1,7 +1,13 @@
 import React from "react";
 import Router from "next/navigation";
 import { useRouter } from "next/navigation";
-const Modal = () => {
+
+interface props {
+  name: string;
+  text: string;
+}
+
+const Modal: React.FC<props> = ({ name, text }) => {
   const route = useRouter();
 
   const moveToHomePage = () => {
@@ -15,14 +21,14 @@ const Modal = () => {
         open
       >
         <p className=" text-center text-xl font-semibold text-green-900 ">
-          Succesful Registered!
+          {text}
         </p>
 
         <button
           onClick={moveToHomePage}
           className=" rounded-lg text-lg bg-blue-500 py-4 px-10 mt-4"
         >
-          Login
+          {name}
         </button>
       </dialog>
     </div>

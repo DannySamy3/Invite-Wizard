@@ -38,7 +38,7 @@ const Register = () => {
 
   return (
     <form className=" h-screen overflow-y-hidden bg-gradient-to-tl from-gray-600  ">
-      {submitted && <Modal />}
+      {submitted && <Modal name={"Login"} text={"Successful Registered!"} />}
       <header className=" mt-6 mb-6">
         <h1 className=" text-center font-montserrat text-5xl ">
           Create Account

@@ -27,10 +27,10 @@ const styles = StyleSheet.create({
     backgroundSize: "cover",
     backgroundPosition: "center",
     paddingHorizontal: 50,
-    paddingVertical: 150, // Adjust padding as needed
+    paddingVertical: 120, // Adjust padding as needed
     fontFamily: "Helvetica", // Default font
     border: "20px solid blue", // Add blue border
-    borderColor: "#8d99ae", // Set border color to blue
+    borderColor: "#e0e1dd", // Set border color to blue
     boxSizing: "border-box", // Ensure padding and border are included in the element's total width and height
     width: 360, // A5 width in points
     height: 504, // A5 height in points
@@ -46,12 +46,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginLeft: 140,
 
-    fontFamily: "Times-Roman", // Header font
+    fontFamily: "Helvetica", // Header font
   },
   content: {
     fontSize: 13,
     marginBottom: 10,
     fontFamily: "Helvetica", // Content font
+    lineHeight: 1.9,
   },
   salutation: {
     marginLeft: 40,
@@ -60,49 +61,65 @@ const styles = StyleSheet.create({
     fontFamily: "Helvetica", // Content font
   },
   footer: {
-    fontSize: 13,
+    fontSize: 12,
+    marginLeft: 10,
     marginBottom: 25,
     fontFamily: "Helvetica", // Content font
   },
-  description: {
-    marginLeft: 80,
-    marginRight: 80,
-    fontSize: 11,
+  contacts: {
+    fontSize: 12,
+    marginLeft: 13,
+    marginBottom: 25,
+    fontFamily: "Helvetica", // Content font
+  },
+  remark: {
+    fontSize: 13,
+    marginLeft: 25,
+    marginBottom: 10,
     lineHeight: 1.8,
+    fontFamily: "Helvetica", // Content font
+  },
+  description: {
+    marginLeft: 10,
+    marginRight: 10,
+    fontSize: 14,
+    fontWeight: 400,
+    lineHeight: 1.8,
+    marginBottom: 10,
 
     fontFamily: "Helvetica", // Content font
   },
   venue: {
-    marginLeft: 150,
-    fontSize: 13,
+    marginLeft: 13,
+    fontSize: 12,
     marginBottom: 10,
     fontFamily: "Helvetica", // Content font
   },
   date: {
-    // marginLeft: 80,
-    fontSize: 13,
+    marginLeft: 12,
+    fontSize: 10,
     marginBottom: 10,
     fontFamily: "Helvetica", // Content font
   },
   title1: {
-    fontSize: 28,
+    fontSize: 24,
     marginBottom: 20,
     fontFamily: "Helvetica", // Content font
-    marginLeft: 130,
+    marginLeft: 170,
     // paddingLeft: 48,
   },
   title2: {
     marginTop: 10,
-    fontSize: 28,
+    fontSize: 24,
     marginBottom: 0,
     fontFamily: "Helvetica", // Content font
-    marginLeft: 150,
+    marginLeft: 180,
   },
   and: {
     fontSize: 22,
     marginBottom: 0,
     fontFamily: "Helvetica", // Content font
-    marginLeft: 190,
+    marginLeft: 215,
     // paddingLeft: 75,
   },
   note: {
@@ -175,8 +192,8 @@ const WeddingCard: React.FC<WeddingCardProps> = ({
 
         <Text style={styles.date}>{`${
           preview && guestCardData && guestCardData.date
-            ? formatDate(guestCardData.date)
-            : formatDate(cardInput.date)
+            ? guestCardData.date
+            : cardInput.date
         }`}</Text>
 
         <Text style={styles.description}>
@@ -184,6 +201,17 @@ const WeddingCard: React.FC<WeddingCardProps> = ({
             ? guestCardData.description
             : cardInput.details}
         </Text>
+
+        <Text style={styles.remark}>{`${
+          preview
+            ? ` ${
+                guestCardData && guestCardData.remark
+                  ? guestCardData.remark
+                  : cardInput.remark
+              }`
+            : ""
+        }`}</Text>
+
         <Text style={styles.venue}>
           {preview &&
             `Venue : ${
@@ -192,9 +220,10 @@ const WeddingCard: React.FC<WeddingCardProps> = ({
                 : cardInput.venue
             }`}
         </Text>
-        <Text style={styles.footer}>{`${
+
+        <Text style={styles.contacts}>{`${
           preview
-            ? `for more information call ${
+            ? `${
                 guestCardData && guestCardData.contacts
                   ? guestCardData.contacts
                   : cardInput.mobileContact

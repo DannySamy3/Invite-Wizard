@@ -3,7 +3,7 @@ import Link from "next/link";
 import nookies from "nookies";
 import { login } from "@/Utils/userController";
 import { useState } from "react";
-
+import Modal from "../ReUsable/Modal";
 interface SaveModalProps {
   triggleModal: (value: boolean) => void;
 }
@@ -16,6 +16,7 @@ const Login = ({ handleLogin }: Login) => {
 
   const [error, setError] = useState("");
   const [token, setToken] = useState("");
+  const [inCorrect, setIncorrect] = useState(false);
 
   const handleChange = (e: any) => {
     e.preventDefault();
@@ -28,20 +29,20 @@ const Login = ({ handleLogin }: Login) => {
     });
   };
 
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
       const response = login(input);
       const result = await response;
       if (result && result.statusText === "OK") {
         setToken(result?.data.token);
-        // localStorage.setItem("authToken", token);
-        // navigate.push("../innerHomePage");
+        setIncorrect(false);
+
         nookies.set(null, "token", result?.data.token, { path: "/" });
-        window.location.href = "../innerHomePage"; // Redirect to a protected page
+        window.location.href = "../innerHomePage";
       }
 
-      // alert("Login successful!");
+      if (result?.statusText !== "OK") setIncorrect(true);
     } catch (error) {
       setError("Invalid email or password");
     }
@@ -58,6 +59,9 @@ const Login = ({ handleLogin }: Login) => {
         className="relative bg-gradient-to-b from-stone-400 to-gray-400  flex flex-col gap-1 rounded-box font-medium font-roboto p-16 border-1 border-base-200 shadow-2xl z-20"
         open
       >
+        {inCorrect && (
+          <Modal name={"Try Again !"} text={"Incorrect Email or Password💥"} />
+        )}
         <article>
           <header>
             <svg

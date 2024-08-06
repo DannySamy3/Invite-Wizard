@@ -60,3 +60,16 @@ export const fetchQRCode = async (data: any) => {
     console.error("Error fetching QR code:", error);
   }
 };
+
+export const logout = async () => {
+  try {
+    const response = await axiosInstance.post("/logout");
+
+    // const { token } = response.data;
+    // return token;
+    
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
