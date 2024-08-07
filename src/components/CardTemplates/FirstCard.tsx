@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     backgroundSize: "cover",
     backgroundPosition: "center",
     paddingHorizontal: 50,
-    paddingVertical: 120, // Adjust padding as needed
+    paddingVertical: 80, // Adjust padding as needed
     fontFamily: "Helvetica", // Default font
     border: "20px solid blue", // Add blue border
     borderColor: "#e0e1dd", // Set border color to blue
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontWeight: "bold",
     textAlign: "center",
-    marginLeft: 140,
+    marginLeft: 50,
 
     fontFamily: "Helvetica", // Header font
   },
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 400,
     lineHeight: 1.8,
-    marginBottom: 10,
+    marginBottom: 0,
 
     fontFamily: "Helvetica", // Content font
   },
@@ -193,7 +193,7 @@ const WeddingCard: React.FC<WeddingCardProps> = ({
         <Text style={styles.date}>{`${
           preview && guestCardData && guestCardData.date
             ? guestCardData.date
-            : cardInput.date
+            : formatDate(cardInput.date)
         }`}</Text>
 
         <Text style={styles.description}>
@@ -231,7 +231,7 @@ const WeddingCard: React.FC<WeddingCardProps> = ({
             : ""
         }`}</Text>
       </View>
-      {preview && (
+      {qrCode && (
         <View style={styles.qrContainer}>
           {/* @ts-ignore */}
           <Image source={{ uri: qrCode }} style={styles.qrImage} />

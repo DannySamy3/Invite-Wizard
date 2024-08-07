@@ -1,12 +1,12 @@
 import React from "react";
 
 interface CardDetailsProps {
-  data: any;
   selection: {
     firstName: string;
     lastName: string;
     price: string;
     mobileNumber: string;
+    plan: string;
   };
   userData: any;
   handleGuestInput: (callback: (prev: any) => any) => void;
@@ -92,8 +92,8 @@ const CardDetails: React.FC<CardDetailsProps> = ({
 
         <label
           className={`${
-            selection.price
-              ? "text-xl rounded-md text-red-600 font-rubik my-4 text-center bg-green-400 h-12 px-2 py-2 top-48"
+            selection.plan
+              ? "text-xl rounded-md text-red-700 font-rubik my-4 text-center bg-green-400 h-12 px-2 py-2 top-48"
               : "hidden"
           }`}
         >

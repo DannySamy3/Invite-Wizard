@@ -1,5 +1,6 @@
 import { AxiosInstance } from "axios";
 import { axiosInstance } from "./controller";
+import { BaseNextResponse } from "next/dist/server/base-http";
 
 interface DataType {
   // Define the structure of your data here
@@ -67,7 +68,17 @@ export const logout = async () => {
 
     // const { token } = response.data;
     // return token;
-    
+
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const getUserById = async (id: number) => {
+  try {
+    const response = await axiosInstance.get(`/userById/${id}`);
+    // console.log("this is response", response);
+
     return response;
   } catch (error) {
     console.error(error);

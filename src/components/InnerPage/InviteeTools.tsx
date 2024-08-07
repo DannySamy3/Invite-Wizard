@@ -60,7 +60,7 @@ const InviteeTools: React.FC<InviteeToolsProps> = ({
         </article>
       )}
 
-      {domain === "invited" && (
+      {domain === "invited"  && (
         <div className=" flex flex-col gap-4 p-2 mt-1">
           <Button
             identifier={"details"}

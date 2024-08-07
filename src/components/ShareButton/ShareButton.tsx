@@ -1,11 +1,12 @@
 import React from "react";
 
 interface ShareButtonProps {
-  userType: any; 
-  display: any
-  handleCard: (e: React.MouseEvent<HTMLButtonElement>) => void; 
+  id: number;
+  userType: any;
+  display: any;
+  handleCard: (e: React.MouseEvent<HTMLButtonElement>) => void;
   selectedElement: {
-    share: boolean; 
+    share: boolean;
   };
 }
 
@@ -14,10 +15,11 @@ const ShareButton: React.FC<ShareButtonProps> = ({
   display,
   handleCard,
   selectedElement,
+  id,
 }) => {
   const baseUrl = "http://localhost:3001/innerHomePage";
   const shareUrl = `${baseUrl}?userType=${
-    userType === "user" ? "invited" : "user"
+    userType === `user` ? `invited ${id}` : "user"
   }`;
 
   const handleShare = (e: any) => {

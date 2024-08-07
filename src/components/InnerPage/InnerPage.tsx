@@ -9,12 +9,16 @@ import ShowDataBase from "./ShowDataBase";
 import LeftNavigation from "../LeftNavigation/LeftNavigation";
 import FirstCard from "../CardTemplates/FirstCard";
 import InviteeTools from "./InviteeTools";
-import { userInfo, inputCardData, fetchQRCode } from "@/Utils/userController";
+import {
+  userInfo,
+  inputCardData,
+  fetchQRCode,
+  getUserById,
+} from "@/Utils/userController";
 import { fetchGuestData } from "@/Utils/guestController";
 import { addPlans } from "@/Utils/priceController";
 import PreviewUserCard from "./PreviewUserCard";
 import { fetchCardAndUserData } from "@/Utils/guestController";
-
 
 import { PDFViewer } from "@react-pdf/renderer";
 
@@ -43,16 +47,16 @@ const InnerPage = () => {
     priceFamily: "",
   };
   const initCardData = {
-    headerText: "Header",
+    headerText: "",
     salutation: "",
     bride: "",
-    groom: "J",
+    groom: "",
     location: "",
     date: "",
     contact: "",
     description: "",
     remark: "",
-    singlePrice: "1",
+    singlePrice: "",
     familyPrice: "",
     doublePrice: "",
   };
@@ -73,7 +77,7 @@ const InnerPage = () => {
   const [loggedInUser, setLoggedInUser] = useState<any>({});
   const [showDataBase, setShowDataBase] = useState(false);
   const [preview, setPreview] = useState(false);
-  const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
+  const [qrCodeUrl, setQrCodeUrl] = useState(null);
   const [guestCardJoins, setGuestCardJoins] = useState(null);
   const [dbData, setDbData] = useState(null);
   const [getGuest, setgetGuest] = useState(null);
@@ -253,23 +257,40 @@ const InnerPage = () => {
 
     const fetchCard = await fetchCardAndUserData(loggedInUser.id);
     setGuestCardJoins(fetchCard[0]);
-    console.log(fetchCard);
 
     handleQrCode(guest.guest_id);
     setPreview(true);
   };
 
+  const fetchUserById = async (id: number) => {
+    try {
+      const response = await getUserById(id);
+
+      setLoggedInUser(response?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    getLoggedUser();
     const params = new URLSearchParams(window.location.search);
     const type = params.get("userType");
-    if (type === "user" || type === "invited") setUserType(type);
+
+    if (!type) {
+      getLoggedUser();
+    }
+    if (type !== "user" && type !== null) {
+      const result = type?.split(" ");
+      setUserType(result![0]);
+      const id = result![1];
+      fetchUserById(+id);
+    }
   }, []);
 
   let btnStyle =
     " font-montserrat rounded-md text-lg p-2 text-start hover:bg-blue-300 outline-none ";
 
-  const toolStyle = ` w-11/12 mt-3 mx-auto shadow-sm rounded-md ${
+  const toolStyle = ` w-11/12 mt-3  mx-auto shadow-sm rounded-md ${
     showDataBase ? "hidden" : ""
   }`;
 
@@ -283,8 +304,17 @@ const InnerPage = () => {
     }
   };
 
+  const handleHideModal = (value: any) => {
+    setSelectedElement((prev) => {
+      return {
+        ...initialViewState,
+        view: value,
+      };
+    });
+  };
+
   return (
-    <div className="bg-gray-200 font-montserrat   h-screen overflow-y-hidden flex flex-row gap-0 outline-none">
+    <div className="bg-gray-200 font-montserrat    h-screen overflow-y-hidden flex flex-row gap-0 outline-none">
       <LeftNavigation
         showDb={setShowDataBase}
         handleData={handleData}
@@ -298,6 +328,18 @@ const InnerPage = () => {
           <PreviewUserCard
             cardInput={dummydata}
             view={setPreview}
+            preview={isSubmitted}
+            qrCode={qrCodeUrl}
+            cardData={guestCardJoins}
+          />
+        )}
+
+        {selectedElement.view && (
+         
+
+          <PreviewUserCard
+            cardInput={dummydata}
+            view={handleHideModal}
             preview={isSubmitted}
             qrCode={qrCodeUrl}
             cardData={guestCardJoins}
@@ -341,16 +383,17 @@ const InnerPage = () => {
                 handleCard={handleCard}
                 selectedElement={selectedElement}
                 domain={userType}
-                // handleShowCard={is}
+             
               />
               <ShareButton
+                id={loggedInUser.id}
                 userType={userType}
                 display={userType}
                 selectedElement={selectedElement}
                 handleCard={handleCard}
               />
             </div>
-            <div className=" bg-gray-200 w-2/4 rounded-lg ">
+            <div className=" bg-gray-200 w-2/4 rounded-lg overflow-y-scroll ">
               <header className="text-2xl text-center font-montserrat shadow-sm bg-gray-100">
                 View
               </header>
@@ -375,7 +418,6 @@ const InnerPage = () => {
               {selectedElement.details && (
                 <CardDetails
                   createGuest={addGuest}
-                  data={dummydata}
                   reset={initialGuestSelection}
                   closeSection={setSelectedElement}
                   handleGuestInput={setGuestSelection}
@@ -383,16 +425,6 @@ const InnerPage = () => {
                   userData={dummydata}
                   preview={setIsSubmitted}
                 />
-              )}
-              {selectedElement.view && (
-                <PDFViewer className=" mt-5 w-11/12 mx-auto h-88%">
-                  <FirstCard
-                    cardInput={dummydata}
-                    preview={isSubmitted}
-                    qrCode={qrCodeUrl}
-                    guestCardData={guestCardJoins}
-                  />
-                </PDFViewer>
               )}
             </div>
           </section>

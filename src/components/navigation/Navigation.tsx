@@ -1,8 +1,6 @@
 "use client";
 import React from "react";
 
-
-
 interface NavigationProps {
   isLoaded: boolean;
   handleLoginModal: () => void;
@@ -33,9 +31,9 @@ ${
 
         <button
           onClick={handleLoginModal}
-          className="  p-4 text-gray-900 hover:bg-green-600 rounded-full bg-green-600"
+          className="  p-4 text-white hover:bg-green-600 rounded-full bg-green-600"
         >
-          Register
+          Get Started
         </button>
       </ul>
     </nav>
