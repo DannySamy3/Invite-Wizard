@@ -54,6 +54,8 @@ const ShowDataBase: React.FC<ShowDataBaseProps> = ({ data, changeUser }) => {
     }
   };
 
+  console.log(pageData);
+
   return (
     <div className="w-full mx-auto flex flex-col bg-gradient-to-tr from-slate-600 font-montserrat   h-screen  gap-0 outline-none">
       <header className=" mt-7  w-full decoration-slate-400 text-4xl text-center text-stone-600 font-playfair">
@@ -75,11 +77,11 @@ const ShowDataBase: React.FC<ShowDataBaseProps> = ({ data, changeUser }) => {
               key={i}
               className="  grid grid-cols-6 px-5 my-5 hover:bg-gray-200  py-2 rounded-md  text-lg"
             >
-              <p className="">{i + 1}</p>
-              <p className="text-start"> {result.first_name}</p>
-              <p> {result.last_name}</p>
+              <p className="">{`${result.guest_id ? i + 1 : ""}`}</p>
+              <p className="text-start"> {`${result?.first_name ?? ""}`}</p>
+              <p> {`${result.last_name ?? ""}`}</p>
               <p> {result.mobile_number}</p>
-              <p className=""> {result.plan.toUpperCase()}</p>
+              <p className=""> {`${result.plan ?? ""}`}</p>
               <button
                 onClick={() => handleChangeUser(result)}
                 className={` ${

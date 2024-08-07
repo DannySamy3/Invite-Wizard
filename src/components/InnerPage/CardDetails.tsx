@@ -90,7 +90,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({
           <option value="family">Family</option>
         </select>
 
-        <label
+        {/* <label
           className={`${
             selection.plan
               ? "text-xl rounded-md text-red-700 font-rubik my-4 text-center bg-green-400 h-12 px-2 py-2 top-48"
@@ -98,7 +98,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({
           }`}
         >
           {`Price: ${userData[selection.price] ?? ""}/=`}
-        </label>
+        </label> */}
       </section>
 
       <button
