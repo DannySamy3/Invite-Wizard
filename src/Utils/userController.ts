@@ -77,7 +77,7 @@ export const logout = async () => {
 export const getUserById = async (id: number) => {
   try {
     const response = await axiosInstance.get(`/userById/${id}`);
-    // console.log("this is response", response);
+    console.log("this is response", response);
 
     return response;
   } catch (error) {

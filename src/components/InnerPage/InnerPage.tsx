@@ -262,9 +262,9 @@ const InnerPage = () => {
     setPreview(true);
   };
 
-  const fetchUserById = async (id: number) => {
+  const fetchUserById = async (fetchUserId: number) => {
     try {
-      const response = await getUserById(id);
+      const response = await getUserById(fetchUserId);
 
       setLoggedInUser(response?.data);
     } catch (error) {
@@ -274,15 +274,22 @@ const InnerPage = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const type = params.get("userType");
+    const userTypeParam = params.get("userType");
+    console.log("userTypeParam:", userTypeParam);
 
-    getLoggedUser();
+    if (!userTypeParam) {
+      getLoggedUser();
+      return;
+    }
 
-    if (type !== "user" && type !== null) {
-      const result = type?.split(" ");
-      setUserType(result![0]);
-      const id = result![1];
-      fetchUserById(+id);
+    const [userType, id] = userTypeParam.split(" "); // Split the parameter value
+    console.log(userType);
+    if (userType && id) {
+      setUserType(userType);
+      fetchUserById(+id); // Convert ID to number and fetch user
+      console.log("okkkkkkkkkkkk");
+    } else {
+      console.error("Invalid userType parameter format.");
     }
   }, []);
 

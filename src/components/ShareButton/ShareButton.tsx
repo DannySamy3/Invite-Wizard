@@ -17,10 +17,11 @@ const ShareButton: React.FC<ShareButtonProps> = ({
   selectedElement,
   id,
 }) => {
+  const urlString = "invited";
   const baseUrl = "http://localhost:3001/innerHomePage";
   const shareUrl = `${baseUrl}?userType=${
-    userType === `user` ? `invited ${id}` : "user"
-  }`;
+    userType === `user` ? `${urlString.concat(` ${id}`)}` : "user"
+  }&id=${id}`;
 
   const handleShare = (e: any) => {
     handleCard(e);
