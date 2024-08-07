@@ -276,9 +276,8 @@ const InnerPage = () => {
     const params = new URLSearchParams(window.location.search);
     const type = params.get("userType");
 
-    if (!type) {
-      getLoggedUser();
-    }
+    getLoggedUser();
+
     if (type !== "user" && type !== null) {
       const result = type?.split(" ");
       setUserType(result![0]);
@@ -335,8 +334,6 @@ const InnerPage = () => {
         )}
 
         {selectedElement.view && (
-         
-
           <PreviewUserCard
             cardInput={dummydata}
             view={handleHideModal}
@@ -383,7 +380,6 @@ const InnerPage = () => {
                 handleCard={handleCard}
                 selectedElement={selectedElement}
                 domain={userType}
-             
               />
               <ShareButton
                 id={loggedInUser.id}
